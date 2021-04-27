@@ -1,32 +1,36 @@
 <?php
-include_once "plantes.php";
-include_once "plantesC.php";
+include_once "..\Model\produits.php";
+include_once "..\controller\produitC.php";
 
-    $id = $_GET['id'];
+    $id = $_GET['ida'];
     //$animal = new animal();
 
-    $planteC = new planteC();
+    $produitC = new produitC();
         $pdo=config::getConnexion();
-        $query= $pdo ->prepare("select * from plantes where id_plante= '$id'");
+        $query= $pdo ->prepare("select * from produits where id_produit= '$id'");
 
         $query->execute();
          $result = $query->fetchAll();
 if(isset($_POST['cancel']))
-{ header("location:gestion_plantes.php");}
+{ header("location:gestion_produits.php");}
 if(isset($_POST['update'])) // when click on Update button
 {
 
-    $espece=$_POST['espece'];
-    $environnement=$_POST['environnement'];
-    $prix=(int)$_POST['prix'];
-    $origine=$_POST['origine'];
-    $image=(string)$_POST['image'];
-    $plante = new plante($espece,$environnement,$prix,$origine,$image);
-    $planteC->updateplante($plante,(int)$id);
+
+
+  $prix=(int)$_POST['prix'];
+  $type=$_POST['type'];
+  $appartenance=$_POST['appartenance'];
+  $description=$_POST['description'];
+  $image=(string)$_POST['image'];
+
+
+    $produit = new produit($prix,$type,$appartenance,$description,$image);
+    $produitC->updateproduit($produit,(int)$id);
 
 
          //Close connection
-        header("location:gestion_plantes.php"); // redirects to all records page
+        header("location:gestion_produits.php"); // redirects to all records page
 
 
 }
@@ -50,43 +54,48 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         }
     </script>
     <style>
-        h2 {text-align: center;}
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            color: #a40212;
-            font-family: monospace;
-            font-size: 25px;
-            text-align: left;
-        }
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
-        th {
-            background-color: #25fde9;
-            color: white;
-        }
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2
-        }
-    </style>
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+    <link href="..\css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <!-- Custom CSS -->
-    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link href="..\css/style.css" rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="css/morris.css" type="text/css" />
     <!-- Graph CSS -->
-    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="..\css/font-awesome.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- //jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <!-- lined-icons -->
-    <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+    <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
+    <script src="..\js/Chart.js"></script>
 </head>
-
 <body>
+    <script src="..\controle_de_saisie_modif_plante.js"></script>
     <div class="page-container">
         <!--/content-inner-->
         <div class="left-content">
@@ -280,33 +289,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Gestion des animaux</li>
                 </ol>
                 <!--grid-->
-              <section id="ajout">
-                <div class="grid-form">
-                    <div class="grid-form1">
-                        <h2 id="forms-example" class="">Ajouter une plante</h2>
-                        <form action="" method="POST">
+                <section id="ajout">
+                  <div class="grid-form">
+                      <div class="grid-form1">
+                          <h2 id="forms-example" class="">Modifier plante</h2>
                             <?php foreach($result as $rows) {?>
+                              <form action="" method="POST" onSubmit="return controlersaisie();">
 
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Espece</label>
-                                <input type="text" class="form-control" name="espece" id="espece" value="<?php echo $rows['espece'] ?>" placeholder="Espece">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Environnement</label>
-                                <input type="text" class="form-control" name="environnement" id="environnement" placeholder="environnement"value="<?php echo $rows['environnement'] ?>" name="trip-start">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Prix</label>
-                                <input type="text" class="form-control" name="prix" id="prix" value="<?php echo $rows['prix'] ?>" placeholder="Prix">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Origine</label>
-                                <input type="text" class="form-control" name="origine" id="origine" value="<?php echo $rows['origine'] ?>" placeholder="Origine">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">Image</label>
-                                <input type="file" name="image" id="image" value="<?php echo $rows['image'] ?>">
-                            </div>
+                                <div id="div_prix" class="form-group">
+                                    <label for="exampleInputPassword1">Prix</label>
+                                    <input type="text" class="form-control1" name="prix" id="prix" value="<?php echo $rows['prix'] ?>" placeholder="prix">
+                                    <div  role="alert" id="err_prix" ></div>
+                                </div>
+                                <div id="div_type" class="form-group">
+                                    <label for="exampleInputPassword1">Type</label>
+                                    <input type="text" class="form-control1" name="type" id="type" value="<?php echo $rows['type'] ?>" placeholder="type" >
+                                    <div  role="alert" id="err_type" ></div>
+                                </div>
+                                <div id="div_appartenance" class="form-group">
+                                    <label for="exampleInputPassword1">Appartenance</label>
+                                    <input type="text" class="form-control1" name="appartenance" id="appartenance" value="<?php echo $rows['appartenance'] ?>" placeholder="appartenance">
+                                    <div  role="alert" id="err_appartenance" ></div>
+                                </div>
+                                <div id="div_description" class="form-group">
+                                    <label for="exampleInputPassword1">description</label>
+                                    <input type="text" class="form-control1" name="description" id="description" value="<?php echo $rows['description'] ?>" placeholder="description">
+                                    <div  role="alert" id="err_description" ></div>
+                                </div>
+                                <div id="div_image" class="form-group">
+                                    <label for="exampleInputFile">Image</label>
+                                    <input type="file" class="form-control1" name="image" value="<?php echo $rows['image'] ?>" id="image">
+                                    <div  role="alert" id="err_image" ></div>
+                                </div>
+
+
                             <?php } ?>
 
 
@@ -338,28 +354,73 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <!--//grid-->
 
                 <section  id="affichage">
-                    <div class="grid-form1">
-                        <h2 id="forms-example" class="">La liste des animaux</h2>
-                    <table>
+                    <div class="agile-tables">
+                    <div class="w3l-table-info">
+                        <h2 id="forms-example" class="">La liste des plantes</h2>
+                    <table id ="customers">
                         <tr>
-                            <th>id_plante</th>
+                            <th>id_produit</th>
 
-                            <th>espece</th>
-                            <th>environnement</th>
-                            <th>prix(dts)</th>
-                            <th>origine</th>
+                            <th>Prix(dts)</th>
+                            <th>type</th>
+                            <th>appartenance</th>
+                            <th>description</th>
                             <th>image</th>
                             <th>edit</th>
                             <th>delete</th>
 
                         </tr>
 
-                        <?php $planteC = new planteC();
-                            $planteC->afficherplante();
+                        <?php $produitC = new produitC();
+                            $produitC->afficherproduit();
                         ?>
                     </div>
 
+
                 </section>
+                <div class="charts">
+                    <div class="col-md-4 w3l-char">
+						<div class="charts-grids widget">
+							<h4 class="title">Stat des type des produits</h4>
+							<canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
+						</div>
+					</div>
+
+                    <?php
+                    $pdo=config::getConnexion();
+                    $query= $pdo ->prepare("select count(type)as nombre,type from produits GROUP by type");
+
+                    $query->execute();
+                     $stat = $query->fetchAll();
+
+                    ?>
+
+
+                    <script>
+
+								var pieData = [
+                                    <?php
+
+                                    foreach($stat as $count) {
+
+
+                                        echo "{value:".$count['nombre'].",";
+                                        echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
+                                        echo "label: '",$count['type'], "'},";
+
+
+
+                                    }
+                                            ?>
+
+
+
+									];
+
+
+							new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
+
+							</script>
 
 
 
@@ -386,9 +447,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <!--inner block end here-->
                 <!--copy rights start here-->
-                <div class="copyrights">
-                    <p>© 2016 Pooled . All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
-                </div>
+
                 <!--COPY rights end here-->
             </div>
         </div>

@@ -1,36 +1,37 @@
+
 <?php
-include_once "..\Model\animal.php";
-include_once "..\controller\animalC.php";
+include_once "..\Model\produits.php";
+include_once "..\Controller\produitC.php";
 
-    $id = $_GET['ida'];
-    //$animal = new animal();
-
-    $animalC = new animalC();
-        $pdo=config::getConnexion();
-        $query= $pdo ->prepare("select * from animaux where id_animal= '$id'");
-
-        $query->execute();
-         $result = $query->fetchAll();
-         if(isset($_POST['cancel']))
-         { header("location:animaux.php");
-         quit(); }
-if(isset($_POST["race"])&& isset($_POST["espece"]) && isset($_POST["date_naissance"])&& isset($_POST["prix"])&& isset($_POST["origine"])&& isset($_POST["image"])) // when click on Update button
-{
-    $race=$_POST['race'];
-    $espece=$_POST['espece'];
-    $date=$newDate = date("Y-m-d", strtotime($_POST['date_naissance']));
-    $prix=(int)$_POST['prix'];
-    $origine=$_POST['origine'];
-    $image=(string)$_POST['image'];
-    $animal = new animal($race,$espece,$date,$prix,$origine,$image);
-    $animalC->updateanimal($animal,(int)$id);
+$error = "";
+$success = 0;
+// create user
+$produit= null;
+$produitC = new produitC();
 
 
-         //Close connection
-        header("location:animaux.php"); // redirects to all records page
 
 
+if (isset($_POST["prix"]) && isset($_POST["type"])&& isset($_POST["appartenance"])&& isset($_POST["description"])&& isset($_POST["image"]))
+    {//{if (empty($_POST["nom"])&& empty($_POST["prenom"]) && empty($_POST["dateNais"]) && empty($_POST["email"]) && empty($_POST["tel"]) && empty($_POST["adresse"]) && empty($_POST["login"]) && empty($_POST["pass"])) {
+
+    $produit = new produit(
+
+        (int)$_POST['prix'],
+        $_POST['type'],
+        $_POST['appartenance'],
+        $_POST['description'],
+        (string)$_POST['image']
+
+    );
+    $produitC->addproduit($produit);
+    $success = 1;
+    header("location: gestion_produits.php");
+
+//}
 }
+
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -90,10 +91,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
     <script src="..\js/Chart.js"></script>
+
 </head>
 
 <body>
-    <script src="..\controle_modifier_animal.js"></script>
+    <script src="..\controle_de_saisie_plante.js"></script>
     <div class="page-container">
         <!--/content-inner-->
         <div class="left-content">
@@ -284,61 +286,53 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <!--heder end here-->
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Gestion des animaux</li>
+                    <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Gestion des plantes</li>
                 </ol>
                 <!--grid-->
-              <section id="ajout">
-                <div class="grid-form">
-                    <div class="grid-form1">
-                        <h2 id="forms-example" class="">Ajouter un animal</h2>
-                        <?php foreach($result as $rows) {?>
-                            <form action="" method="POST" onSubmit="return controledesaisie()">
-                                <div id="div_race" class="form-group">
-                                    <label for="exampleInputEmail1">Race naimal</label>
-                                    <input type="text" class="form-control1" name="race" id="race" value="<?php echo $rows['race'] ?>" placeholder="Race naimal">
-                                   <div  role="alert" id="err_race" ></div>
+                <section id="ajout">
+                  <div class="grid-form">
+                      <div class="grid-form1">
+                          <h2 id="forms-example" class="">Ajouter un produit</h2>
+                          <form action="" method="POST" onSubmit="return controlersaisie();">
 
-                                </div>
-                                <div id="div_espece" class="form-group">
-                                    <label for="exampleInputPassword1">Espece</label>
-                                    <input type="text" class="form-control1" name="espece" id="espece" value="<?php echo $rows['espece'] ?>" placeholder="Espece">
-                                    <div  role="alert" id="err_espece" ></div>
-                                </div>
-                                <div id="div_date_naissance" class="form-group">
-                                    <label for="exampleInputPassword1">Date de naissance</label>
-                                    <input type="date" class="form-control1" name="date_naissance" id="date_naissance" value="<?php echo $rows['date_naissance'] ?>" name="trip-start">
-                                  <div  role="alert" id="err_date_naissance" ></div>
-                                </div>
-                                <div id="div_prix" class="form-group">
-                                    <label for="exampleInputPassword1">Prix</label>
-                                    <input type="text" class="form-control1" name="prix" id="prix" value="<?php echo $rows['prix'] ?>" placeholder="Prix">
-                                    <div  role="alert" id="err_prix" ></div>
-                                </div>
-                                <div id="div_origine" class="form-group">
-                                    <label for="exampleInputPassword1">Origine</label>
-                                    <input type="text" class="form-control1" name="origine" id="origine" value="<?php echo $rows['origine'] ?>" placeholder="Origine">
-
-                                    <div  role="alert" id="err_origine" ></div>
-                                </div>
-                                <div id="div_image" class="form-group">
-                                    <label for="exampleInputFile">Image</label>
-                                    <input type="file" class="form-control1" name="image" id="image">
-                                    <div  role="alert" id="err_image" ></div>
-                                </div>
-                                 <?php } ?>
+                            <div id="div_prix" class="form-group">
+                                <label for="exampleInputPassword1">Prix</label>
+                                <input type="text" class="form-control1" name="prix" id="prix" placeholder="prix">
+                                <div  role="alert" id="err_prix" ></div>
+                            </div>
+                            <div id="div_type" class="form-group">
+                                <label for="exampleInputPassword1">Type</label>
+                                <input type="text" class="form-control1" name="type" id="type" placeholder="type" >
+                                <div  role="alert" id="err_type" ></div>
+                            </div>
+                            <div id="div_appartenance" class="form-group">
+                                <label for="exampleInputPassword1">Appartenance</label>
+                                <input type="text" class="form-control1" name="appartenance" id="appartenance" placeholder="appartenance">
+                                <div  role="alert" id="err_appartenance" ></div>
+                            </div>
+                            <div id="div_description" class="form-group">
+                                <label for="exampleInputPassword1">description</label>
+                                <input type="text" class="form-control1" name="description" id="description" placeholder="description">
+                                <div  role="alert" id="err_description" ></div>
+                            </div>
+                            <div id="div_image" class="form-group">
+                                <label for="exampleInputFile">Image</label>
+                                <input type="file" class="form-control1" name="image" id="image">
+                                <div  role="alert" id="err_image" ></div>
+                            </div>
 
 
-                                <div class="panel-footer">
-                                    <div class="row">
-                                        <div class="col-sm-8 col-sm-offset-2">
-                                            <input class="btn-primary btn" type="submit" value="Submit">
-                                        <input class="btn-primary btn" type="submit" name="cancel" value="Cancel">
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <input class="btn-primary btn" type="submit" value="Submit">
+                                        <button class="btn-default btn">Cancel</button>
+                                        <button class="btn-inverse btn">Reset</button>
 
-
-                                        </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
+                        </form>
                     </div>
                     <!----->
 
@@ -359,38 +353,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <section  id="affichage">
                     <div class="agile-tables">
                     <div class="w3l-table-info">
-                        <h2 id="forms-example" class="">La liste des animaux</h2>
+                        <h2 id="forms-example" class="">La liste des plantes</h2>
                     <table id ="customers">
                         <tr>
-                            <th>id_animal</th>
-                            <th>race</th>
-                            <th>espece</th>
-                            <th>date_naissance</th>
-                            <th>prix(dts)</th>
-                            <th>origine</th>
+                            <th>id_produit</th>
+
+                            <th>Prix(dts)</th>
+                            <th>type</th>
+                            <th>appartenance</th>
+                            <th>description</th>
                             <th>image</th>
                             <th>edit</th>
                             <th>delete</th>
 
                         </tr>
 
-                        <?php $animalC = new animalC();
-                            $animalC->afficheranimal();
+                        <?php $produitC = new produitC();
+                            $produitC->afficherproduit();
                         ?>
                     </div>
 
+
                 </section>
+                <!-- final affichage des plantes -->
                 <div class="charts">
                     <div class="col-md-4 w3l-char">
 						<div class="charts-grids widget">
-							<h4 class="title">Stat des especes des animaux</h4>
+							<h4 class="title">Stat des type des produits</h4>
 							<canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
 						</div>
 					</div>
 
                     <?php
                     $pdo=config::getConnexion();
-                    $query= $pdo ->prepare("select count(espece)as nombre,espece from animaux GROUP by espece");
+                    $query= $pdo ->prepare("select count(type)as nombre,type from produits GROUP by type");
 
                     $query->execute();
                      $stat = $query->fetchAll();
@@ -408,7 +404,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                                         echo "{value:".$count['nombre'].",";
                                         echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
-                                        echo "label: '",$count['espece'], "'},";
+                                        echo "label: '",$count['type'], "'},";
 
 
 
@@ -424,7 +420,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							</script>
 
-                </div>
 
 
 
@@ -449,6 +444,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="inner-block">
 
                 </div>
+                <!--inner block end here-->
+                <!--copy rights start here-->
 
                 <!--COPY rights end here-->
             </div>
@@ -467,9 +464,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a></li>
 
 
-                    <li id="menu-academico"><a href="animaux.php"><i class="fa fa-envelope nav_icon"></i><span>Gestion des animaux</span>
-                            <div class="clearfix"></div>
-                        </a></li>
+                        <li id="menu-academico"><a href="gestion_plantes.php"><i class="fa fa-envelope nav_icon"></i><span>Gestion</span>
+                                <div class="clearfix"></div>
+                            </a>
+                            <ul id="menu-academico-sub">
+                                <li><a href="gestion_plantes.php">gestion des plantes</a></li>
+                                <li><a href="animaux.php">gestion des animaux</a></li>
+                                <li><a href="gestion_produits.php">gestion des produits</a></li>
+
+                            </ul>
+                        </li>
                     <li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Gallery</span>
                             <div class="clearfix"></div>
                         </a></li>

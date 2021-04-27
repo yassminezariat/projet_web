@@ -19,8 +19,8 @@ include_once "../connection.php";
             {  $image=$rows['image'];
                 $image="..\images\\$image";
                 echo "<tr><td>" . $rows['id_plante']. "</td><td>".$rows['espece']."</td><td>" .$rows['environnement']."</td><td>" .$rows['prix']."</td><td>" .$rows['origine']
-                ."</td><td>" ."<img src='",$image,"' width='175' height='200' />"."</td><td>"."<a href=edit_plantes.php?id=".$rows['id_plante'].">Edit</a>"
-                ."</td><td>"."<a href=delete_plante.php?id=".$rows['id_plante'].">Delete</a>"."</td></tr>";
+                ."</td><td>" ."<img src='",$image,"' width='175' height='200' />"."</td><td>"."<a href=edit_plantes.php?id=".$rows['id_plante']."><img src=../images/pencil.png width=35 height=35></a>"
+                ."</td><td>"."<a href=delete_plante.php?id=".$rows['id_plante']."><img src=../images/button_cancel.png width=35 height=35></a>"."</td></tr>";
 
         }
             echo("</table>");

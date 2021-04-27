@@ -88,6 +88,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- lined-icons -->
     <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
+    <script src="..\js/Chart.js"></script>
+
 </head>
 
 <body>
@@ -347,9 +349,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <!--//grid-->
 
                 <section  id="affichage">
-                    <div class="grid-form1">
-                        <h2 id="forms-example" class="">La liste des animaux</h2>
-                    <table id="customers">
+                    <div class="agile-tables">
+                    <div class="w3l-table-info">
+                        <h2 id="forms-example" class="">La liste des plantes</h2>
+                    <table id ="customers">
                         <tr>
                             <th>id_plante</th>
 
@@ -368,7 +371,53 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         ?>
                     </div>
 
+
                 </section>
+                <!-- final affichage des plantes -->
+                <div class="charts">
+                    <div class="col-md-4 w3l-char">
+						<div class="charts-grids widget">
+							<h4 class="title">Stat des especes des plantes</h4>
+							<canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
+						</div>
+					</div>
+
+                    <?php
+                    $pdo=config::getConnexion();
+                    $query= $pdo ->prepare("select count(espece)as nombre,espece from plantes GROUP by espece");
+
+                    $query->execute();
+                     $stat = $query->fetchAll();
+
+                    ?>
+
+
+                    <script>
+
+								var pieData = [
+                                    <?php
+
+                                    foreach($stat as $count) {
+
+
+                                        echo "{value:".$count['nombre'].",";
+                                        echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
+                                        echo "label: '",$count['espece'], "'},";
+
+
+
+                                    }
+                                            ?>
+
+
+
+									];
+
+
+							new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
+
+							</script>
+
 
 
 
@@ -395,9 +444,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <!--inner block end here-->
                 <!--copy rights start here-->
-                <div class="copyrights">
-                    <p>© 2016 Pooled . All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
-                </div>
+
                 <!--COPY rights end here-->
             </div>
         </div>
