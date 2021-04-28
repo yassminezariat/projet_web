@@ -22,7 +22,7 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
     $avis = new Avis($_POST['description'],(int)$_POST['note'],(int)$_SESSION['id'],(string)$_POST["type_avis"]);
     $avisC->ajouteravis($avis);
 
-    header("location:gestion_avisFCL.php");
+    header("location:gestion_avis_FCL.php");
   }
   //reclamation
 

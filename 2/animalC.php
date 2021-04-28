@@ -2,6 +2,9 @@
 include_once "connection.php" ;
 
     class animalC {
+
+
+      
         public function afficheranimal() {
             try{
                 $pdo=config::getConnexion();

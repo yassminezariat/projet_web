@@ -379,6 +379,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                    <section  id="affichagere">
                                      <h2 id="forms-example" class=""> consulter la liste des reclamations</h2>
                                                  <div class="grid-form1">
+                                                   <form action="rechercherreclamation.php" method="get">
+                                                   chercher par <input type="text" name="search"><br>
+
+                                                   choix: <select name="column">
+                                                            <option value="type_reclamation">type_reclamation</option>
+
+                                                            <option value="nom">nom</option>
+                                                            <option value="prenom">prenom</option>
+                                                             </select><br>
+                                                   <input type="submit" name="button">
+                                                   </form>
+
+                                                   <form action="trierreclamation.php" method="get" >
+                                                   trier par: <select name="column">
+
+                                                            <option value="nom">nom</option>
+                                                            <option value="prenom">prenom</option>
+                                                             </select><br>
+                                                             <input type="submit" name="button">
+                                                   </form>
+
+
 
                                                    <div class="form-group">
                                                      <h3 for="exampleInputPassword1">Etat de la reclamation </3>
