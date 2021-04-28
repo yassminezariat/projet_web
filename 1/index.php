@@ -556,9 +556,9 @@ $animalC = new animalC();
                 <h3 class="main-title-w3pvt">Our animals</h3>
                 <p>We have the best races of animals !</p>
             </div>
-            <div class="row py-4 mt-lg-5  team-grid">
+
                 <?php $animalC->afficheranimal();?>
-            </div>
+
             </div>
         </section>
     <!-- portfolio -->
