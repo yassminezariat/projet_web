@@ -377,6 +377,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </section>
                 <!-- final affichage des plantes -->
                 <div class="charts">
+                  <div class="col-md-4 w3layouts-char">
+						<div class="charts-grids widget">
+							<h4 class="title">Bar Chart Example</h4>
+							<canvas id="bar" width="680" height="600" style="width: 544px; height: 480px;"> </canvas>
+						</div>
+					</div>
                     <div class="col-md-4 w3l-char">
 						<div class="charts-grids widget">
 							<h4 class="title">Stat des type des produits</h4>
@@ -391,10 +397,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     $query->execute();
                      $stat = $query->fetchAll();
 
+                     $query= $pdo ->prepare("select count(appartenance)as nombre,appartenance from produits GROUP by appartenance");
+                     $query->execute();
+                      $bar = $query->fetchAll();
+                      (string)$lables="[";
+                      (string)$valuess='[';
+
+                      foreach($bar as $choix) {
+                      $lables .= "'".$choix['appartenance']."'".",";
+                      $valuess.="'".(int)$choix['nombre']."'".",";
+
+
+
+                      }
+                        $lables.=']';
+                        $valuess.=']';
+
+
+
                     ?>
 
 
                     <script>
+                    var barChartData = {
+									<?php echo "labels :".$lables.",";?>
+									datasets : [
+										{
+											fillColor : "rgb(199, 54, 39)",
+											strokeColor : "rgba(233, 78, 2, 0.9)",
+											highlightFill: "#e74c3c",
+											highlightStroke: "#e74c3c",
+											<?php echo "data :".$valuess.",";?>
+										},
+
+									]
+
+								};
 
 								var pieData = [
                                     <?php
@@ -416,6 +454,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									];
 
 
+                new  Chart(document.getElementById("bar").getContext("2d")).Bar(barChartData);
 							new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
 
 							</script>

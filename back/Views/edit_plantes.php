@@ -416,9 +416,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a></li>
 
 
-                    <li id="menu-academico"><a href="animaux.php"><i class="fa fa-envelope nav_icon"></i><span>Gestion des animaux</span>
-                            <div class="clearfix"></div>
-                        </a></li>
+                        <li id="menu-academico"><a href="gestion_plantes.php"><i class="fa fa-envelope nav_icon"></i><span>Gestion</span>
+                                <div class="clearfix"></div>
+                            </a>
+                            <ul id="menu-academico-sub">
+                                <li><a href="gestion_plantes.php">gestion des plantes</a></li>
+                                <li><a href="animaux.php">gestion des animaux</a></li>
+                                <li><a href="gestion_produits.php">gestion des produits</a></li>
+
+                            </ul>
+                        </li>
                     <li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Gallery</span>
                             <div class="clearfix"></div>
                         </a></li>
