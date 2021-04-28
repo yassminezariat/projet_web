@@ -371,6 +371,39 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                          ?>
                                          </table>
                                        </div>
+
+
+                                       <section>
+                                         <script src="js/Chart.js"></script>
+                                         <div class="charts-grids widget">
+                                                       <h4 class="title"> statistique sur les types des avis </h4>
+                                                       <canvas id="pie" width="488" height="438" style="width: 488px; height: 438px;"> </canvas>
+                                                     </div>
+                                                     <?php
+                                                                                                       $pdo=config::getConnexion();
+                                                                                                           $query= $pdo ->prepare("SELECT COUNT(type_avis)AS nombre,type_avis FROM avis GROUP by type_avis");
+                                                                                                           $query->execute();
+                                                                                                           $result = $query->fetchAll();
+                                                                                                       ?>
+                                                    <script>
+
+             var pieData = [
+                  <?php
+                   foreach ($result as $row) {
+                     // code...
+                     echo "{value:".$row['nombre'].",";echo "color:'rgb(23, 136, 210)' ,";echo "label: '",$row['type_avis'], "'},";
+
+} ?>
+
+               ] ;
+
+
+           new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
+
+           </script>
+
+                                       </section>
+
 <br></br>
 <br></br>
 <br></br>
@@ -446,10 +479,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                  </div>
 
 
-
                            <form action="" method="POST" class="form">
-
-
                              </div>
                                <div class="form-group">
    <h3 for="exampleInputPassword1"> </h3>
