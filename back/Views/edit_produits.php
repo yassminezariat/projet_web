@@ -42,6 +42,7 @@ if(isset($_POST['update'])) // when click on Update button
     <title>Pooled Admin Panel Category Flat Bootstrap Responsive Web Template | Input :: w3layouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript">
@@ -357,6 +358,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="agile-tables">
                     <div class="w3l-table-info">
                         <h2 id="forms-example" class="">La liste des plantes</h2>
+                          <input type="text" name="search_produit" id="search_produit" class="form-control" placeholder="Rercher"/>
                     <table id ="customers">
                         <tr>
                             <th>id_produit</th>
@@ -378,6 +380,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
                 </section>
+                <script>
+                  $(document).ready(function() {
+                    $('#search_produit').keyup(function() {
+                      search_table($(this).val());
+                    });
+
+                    function search_table(value) {
+                      $('#customers tr').each(function() {
+                        var found = 'false';
+                        $(this).each(function() {
+                          if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                            found = 'true';
+                          }
+                        });
+                        if (found == 'true') {
+                          $(this).show();
+                        } else {
+                          $(this).hide();
+                        }
+                      });
+                    }
+                  });
+                </script>
                 <div class="charts">
                   <div class="col-md-4 w3layouts-char">
 						<div class="charts-grids widget">

@@ -38,6 +38,7 @@ if(isset($_POST["race"])&& isset($_POST["espece"]) && isset($_POST["date_naissan
 <head>
     <title>Pooled Admin Panel Category Flat Bootstrap Responsive Web Template | Input :: w3layouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
@@ -360,6 +361,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="agile-tables">
                     <div class="w3l-table-info">
                         <h2 id="forms-example" class="">La liste des animaux</h2>
+  <input type="text" name="search_animal" id="search_animal" class="form-control" placeholder="Rercher"/>
                     <table id ="customers">
                         <tr>
                             <th>id_animal</th>
@@ -380,6 +382,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
 
                 </section>
+                <script>
+                  $(document).ready(function() {
+                    $('#search_animal').keyup(function() {
+                      search_table($(this).val());
+                    });
+
+                    function search_table(value) {
+                      $('#customers tr').each(function() {
+                        var found = 'false';
+                        $(this).each(function() {
+                          if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                            found = 'true';
+                          }
+                        });
+                        if (found == 'true') {
+                          $(this).show();
+                        } else {
+                          $(this).hide();
+                        }
+                      });
+                    }
+                  });
+                </script>
                 <div class="charts">
                     <div class="col-md-4 w3l-char">
 						<div class="charts-grids widget">

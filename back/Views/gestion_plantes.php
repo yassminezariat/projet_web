@@ -38,6 +38,7 @@ if (isset($_POST["espece"]) && isset($_POST["environnement"])&& isset($_POST["pr
     <title>Pooled Admin Panel Category Flat Bootstrap Responsive Web Template | Input :: w3layouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript">
@@ -352,6 +353,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="agile-tables">
                     <div class="w3l-table-info">
                         <h2 id="forms-example" class="">La liste des plantes</h2>
+                          <input type="text" name="search_plante" id="search_plante" class="form-control" placeholder="Rercher"/>
                     <table id ="customers">
                         <tr>
                             <th>id_plante</th>
@@ -373,6 +375,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
                 </section>
+                <script>
+                  $(document).ready(function() {
+                    $('#search_plante').keyup(function() {
+                      search_table($(this).val());
+                    });
+
+                    function search_table(value) {
+                      $('#customers tr').each(function() {
+                        var found = 'false';
+                        $(this).each(function() {
+                          if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                            found = 'true';
+                          }
+                        });
+                        if (found == 'true') {
+                          $(this).show();
+                        } else {
+                          $(this).hide();
+                        }
+                      });
+                    }
+                  });
+                </script>
                 <!-- final affichage des plantes -->
                 <div class="charts">
                     <div class="col-md-4 w3l-char">
