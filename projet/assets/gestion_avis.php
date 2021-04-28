@@ -4,6 +4,10 @@ session_start();
 $_SESSION['id']=1;
 
 include_once '../Model/avis.php';
+
+
+
+
 include_once '../Controller/avisC.php';
 include_once '../Model/reclamations.php';
 include_once '../Controller/reclamationC.php';
