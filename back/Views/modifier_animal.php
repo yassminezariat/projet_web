@@ -74,6 +74,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   background-color: #4CAF50;
   color: white;
 }
+
+#customers th.headerSortUp{
+   background-image:url("../images/up.png") ;
+   background-color: #3399FF;
+   background-repeat:no-repeat;
+   background-position: center right;
+
+
+ }
+ #customers th.headerSortDown{
+   background-image:url("../images/down.png") ;
+   background-color: #3399FF;
+
+   background-repeat:no-repeat;
+   background-position: center right;
+
+
+ }
+
 </style>
     <!-- Bootstrap Core CSS -->
     <link href="..\css/bootstrap.min.css" rel='stylesheet' type='text/css' />
@@ -91,6 +110,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
     <script src="..\js/Chart.js"></script>
+    <script src="..\sort.js"></script>
 </head>
 
 <body>
@@ -356,6 +376,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 </section>
                 <!--//grid-->
+                <script>
+
+                $(document).ready(function() {
+                  $('#customers').tablesorter();
+
+                });
+
+
+
+                </script>
 
                 <section  id="affichage">
                     <div class="agile-tables">
@@ -363,6 +393,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <h2 id="forms-example" class="">La liste des animaux</h2>
   <input type="text" name="search_animal" id="search_animal" class="form-control" placeholder="Rercher"/>
                     <table id ="customers">
+                      <thead class ="thead-inverse">
                         <tr>
                             <th>id_animal</th>
                             <th>race</th>
@@ -371,8 +402,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <th>prix(dts)</th>
                             <th>origine</th>
                             <th>image</th>
-                            <th>edit</th>
-                            <th>delete</th>
+                            <th>Modifier</th>
+                            <th>Supprimer</th>
+                            </thead>
 
                         </tr>
 

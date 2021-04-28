@@ -73,6 +73,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   background-color: #4CAF50;
   color: white;
 }
+
+#customers th.headerSortUp{
+   background-image:url("../images/up.png") ;
+   background-color: #3399FF;
+   background-repeat:no-repeat;
+   background-position: center right;
+
+
+ }
+ #customers th.headerSortDown{
+   background-image:url("../images/down.png") ;
+   background-color: #3399FF;
+
+   background-repeat:no-repeat;
+   background-position: center right;
+
+
+ }
+
 </style>
     <!-- Bootstrap Core CSS -->
     <link href="..\css/bootstrap.min.css" rel='stylesheet' type='text/css' />
@@ -89,6 +108,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- lined-icons -->
     <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
+    <script src="..\js/Chart.js"></script>
+      <script src="..\sort.js"></script>
 </head>
 <body>
     <script src="..\controle_de_saisie_modif_plante.js"></script>
@@ -347,12 +368,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 </section>
                 <!--//grid-->
+                <script>
 
+                $(document).ready(function() {
+                  $('#customers').tablesorter();
+
+                });
+
+
+
+                </script>
                 <section  id="affichage">
                     <div class="grid-form1">
                         <h2 id="forms-example" class="">La liste des animaux</h2>
                           <input type="text" name="search_plante" id="search_plante" class="form-control" placeholder="Rercher"/>
                     <table id="customers">
+                      <thead class ="thead-inverse">
                         <tr>
                             <th>id_plante</th>
 
@@ -361,8 +392,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <th>prix(dts)</th>
                             <th>origine</th>
                             <th>image</th>
-                            <th>edit</th>
-                            <th>delete</th>
+                            <th>Modifier</th>
+                            <th>Supprimer</th>
+                            </thead>
 
                         </tr>
 
@@ -395,6 +427,50 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     }
                   });
                 </script>
+                <div class="charts">
+                    <div class="col-md-4 w3l-char">
+						<div class="charts-grids widget">
+							<h4 class="title">Stat des especes des plantes</h4>
+							<canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
+						</div>
+					</div>
+
+                    <?php
+                    $pdo=config::getConnexion();
+                    $query= $pdo ->prepare("select count(espece)as nombre,espece from plantes GROUP by espece");
+
+                    $query->execute();
+                     $stat = $query->fetchAll();
+
+                    ?>
+
+
+                    <script>
+
+								var pieData = [
+                                    <?php
+
+                                    foreach($stat as $count) {
+
+
+                                        echo "{value:".$count['nombre'].",";
+                                        echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
+                                        echo "label: '",$count['espece'], "'},";
+
+
+
+                                    }
+                                            ?>
+
+
+
+									];
+
+
+							new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
+
+							</script>
+
 
 
 
@@ -414,6 +490,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                     });
                 </script>
+
+
+
+
+                
                 <!-- /script-for sticky-nav -->
                 <!--inner block start here-->
                 <div class="inner-block">
@@ -421,9 +502,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <!--inner block end here-->
                 <!--copy rights start here-->
-                <div class="copyrights">
-                    <p>© 2016 Pooled . All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
-                </div>
+
                 <!--COPY rights end here-->
             </div>
         </div>

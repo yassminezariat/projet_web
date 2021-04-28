@@ -39,9 +39,11 @@ if (isset($_POST["race"])&& isset($_POST["espece"]) && isset($_POST["date_naissa
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
     <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript">
+
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
@@ -73,6 +75,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   background-color: #4CAF50;
   color: white;
 }
+
+#customers th.headerSortUp{
+   background-image:url("../images/up.png") ;
+   background-color: #3399FF;
+   background-repeat:no-repeat;
+   background-position: center right;
+
+
+ }
+ #customers th.headerSortDown{
+   background-image:url("../images/down.png") ;
+   background-color: #3399FF;
+
+   background-repeat:no-repeat;
+   background-position: center right;
+
+
+ }
+
 </style>
     <!-- Bootstrap Core CSS -->
     <link href="..\css/bootstrap.min.css" rel='stylesheet' type='text/css' />
@@ -90,6 +111,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
     <script src="..\js/Chart.js"></script>
+    <script src="..\sort.js"></script>
+
 </head>
 
 <body>
@@ -353,7 +376,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </section>
                 <!--//final ajout animal-->
 
+                <script>
 
+                $(document).ready(function() {
+                  $('#customers').tablesorter();
+
+                });
+
+
+
+                </script>
 
                 <!--affichage animal-->
 
@@ -364,6 +396,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <input type="text" name="search_animal" id="search_animal" class="form-control" placeholder="Rercher"/>
 
                     <table id ="customers">
+                      <thead class ="thead-inverse">
                         <tr>
                             <th>Id   </th>
                             <th>Race       </th>
@@ -374,6 +407,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <th>Image</th>
                             <th>Modifier</th>
                             <th>Supprimer</th>
+                          </thead>
 
                         </tr>
 
@@ -384,6 +418,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
 
                 </section>
+
+
+
+
 
                 <script>
                   $(document).ready(function() {
