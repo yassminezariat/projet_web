@@ -38,7 +38,7 @@ function controlersaisie() {
 
 
     var prix = document.getElementById("prix").value;
-    if (prix.length == 0) {
+    if (prix.length == 0|| prix.match(/^[0-9]+$/) == null) {
         document.getElementById("div_prix").className = "form-group has-error";
         document.getElementById("err_prix").innerHTML = "ATTENTION ! Cette case ne doit pas etre vide et doit et doit etre en digits";
         document.getElementById("err_prix").className = "alert alert-danger";

@@ -95,7 +95,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="..\js/Chart.js"></script>
 </head>
 <body>
-    <script src="..\controle_de_saisie_modif_plante.js"></script>
+    <script src="..\controle_de_saisie_modif_produit.js"></script>
     <div class="page-container">
         <!--/content-inner-->
         <div class="left-content">
@@ -425,8 +425,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<?php echo "labels :".$lables.",";?>
 									datasets : [
 										{
-											fillColor : "rgb(199, 54, 39)",
-											strokeColor : "rgba(233, 78, 2, 0.9)",
+											<?php echo "fillColor :'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
+                      echo "strokeColor :'rgba(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
+											 ?>
 											highlightFill: "#e74c3c",
 											highlightStroke: "#e74c3c",
 											<?php echo "data :".$valuess.",";?>
@@ -458,7 +459,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 new  Chart(document.getElementById("bar").getContext("2d")).Bar(barChartData);
 							new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
-
 							</script>
 
 
