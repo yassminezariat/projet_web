@@ -391,7 +391,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                   <?php
                    foreach ($result as $row) {
                      // code...
-                     echo "{value:".$row['nombre'].",";echo "color:'rgb(23, 136, 210)' ,";echo "label: '",$row['type_avis'], "'},";
+                     echo "{value:".$row['nombre'].",";
+                                        echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";echo "label: '",$row['type_avis'], "'},";
 
 } ?>
 
