@@ -430,18 +430,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 
-                                                   <div class="form-group">
-                                                     <h3 for="exampleInputPassword1">Etat de la reclamation </3>
-                                                     <select name="etat_reclamation">
-                                                       <option value="reclamation traitee">reclamation traitee</option>
-                                                       <option value="reclamation non traitee">reclamation non traitee</option>
 
-                                                     </select>
-                                                   </div>
-                                                   <div class="form-group">
-                                                     <h3 for="exampleInputPassword1">Reponse</3>
-                                                     <input type="text" name="reponse" >
-                                                   </div>
+                                                
                                                  <table>
                                                    <?php
                                                    $search = $_GET['search'];
@@ -453,14 +443,18 @@ echo("<th>");
 echo ("type_reclamation");
 echo ("</th>");
 echo("<th>");
-echo ("Date de l'envoi de la reclamation");
-echo ("</th>");
-echo("<th>");
 echo ("description_reclamation");
 echo ("</th>");
 echo("<th>");
 echo ("Le client");
 echo ("</th>");
+echo("<th>");
+echo ("etat reclamation");
+echo ("</th>");
+echo("<th>");
+echo ("Reponse");
+echo ("</th>");
+
 echo("</tr>");
                                                  ?>  <?php
                                                  $reclamationsC=new reclamationsC();
@@ -479,15 +473,19 @@ echo("</tr>");
           echo (" <td>");
           echo $rows['type_reclamation'];
           echo ("</td>");
-          echo ("<td>");
-          echo $rows['date_reclamation'];
-          echo ("</td>");
+
           echo ("<td>");
           echo $rows['description_reclamation'];
           echo ("</td>");
           echo ("<td>");
           echo $rows['nom'];
           echo $rows['prenom'];
+          echo ("</td>");
+          echo ("<td>");
+          echo $rows['etat_reclamation'];
+          echo ("</td>");
+          echo ("<td>");
+          echo $rows['reponse'];
           echo ("</td>");
 
       echo("</tr>");

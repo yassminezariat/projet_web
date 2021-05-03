@@ -42,11 +42,11 @@ $reclamationsC = new reclamationsC();
 
 $liste2=$reclamationsC->afficherreclamation();
 
-if (isset($_POST["type_reclamation"])&& isset($_POST["description_reclamation"]))
+if (isset($_POST["etat_reclamation"])&& isset($_POST["reponse"]))
      {
 
-    $reclamations = new reclamations((string)$_POST['type_reclamation'],(string)$_POST['description_reclamation'],(int)$_SESSION['id']);
-    $reclamationsC->ajouterreclamation($reclamations);
+       $reclamations = new reclamations((string)$_POST['type_reclamation'],(string)$_POST['description_reclamation'],(int)$_SESSION['id'],(string)$_POST['etat_reclamation'],(string)$_POST['reponse']);
+       $reclamationsC->ajouterreclamation($reclamations);
 
     header("location:gestion_avis.php");
   }
@@ -438,38 +438,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                              <input type="submit" name="button">
                                                    </form>
 
+                                                  
 
 
-                                                   <div class="form-group">
-                                                     <h3 for="exampleInputPassword1">Etat de la reclamation </3>
-                                                     <select name="etat_reclamation">
-                                                       <option value="reclamation traitee">reclamation traitee</option>
-                                                       <option value="reclamation non traitee">reclamation non traitee</option>
-
-                                                     </select>
-                                                   </div>
-                                                   <div class="form-group">
-                                                     <h3 for="exampleInputPassword1">Reponse</3>
-                                                     <input type="text" name="reponse" >
-                                                   </div>
                                                  <table>
                                                      <tr>
                                                          <th>type_reclamation</th>
-                                                         <th>date_reclamation</th>
                                                          <th>description_reclamation</th>
                                                          <th>client</th>
-
+                                                         <th>etat_reclamation</th>
+                                                         <th>reponse</th>
                                                      </tr>
                                                      <?php
                                                      foreach ($liste2 as $row){
                                                        ?>
                                                          <tr>
                                                            <td><?php echo $row['type_reclamation'];  ?></td>
-                                                           <td><?php echo $row['date_reclamation'];  ?></td>
                                                            <td><?php echo $row['description_reclamation'];  ?></td>
                                                            <td><?php echo $row['nom'];  ?> <?php echo $row['prenom'];  ?></td>
-
-
+                                                           <td><?php echo $row['etat_reclamation'];  ?></td>
+                                                           <td><?php echo $row['reponse'];  ?></td>
+                                                           <td><a href="modifier_reclamation.php?id=<?php echo $row['id_reclamation'];  ?>">modifier</a></td>
 
 
                                                          </tr>
@@ -480,7 +469,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                  </div>
 
 
+
                            <form action="" method="POST" class="form">
+
+
                              </div>
                                <div class="form-group">
    <h3 for="exampleInputPassword1"> </h3>
