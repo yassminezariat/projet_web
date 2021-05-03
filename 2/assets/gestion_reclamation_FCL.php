@@ -1086,7 +1086,7 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
 
                                             <th>type_reclamation</th>
                                             <th>description_reclamation</th>
-
+                                            <th>etat_reclamation</th>
 
                                         </tr>
                                         <?php
@@ -1097,6 +1097,8 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                                               <td><?php echo $row['type_reclamation'];  ?></td>
 
                                               <td><?php echo $row['description_reclamation'];  ?></td>
+
+                                                <td><?php echo $row['etat_reclamation'];  ?></td>
 
                                               <td><a href="supprimer_reclamation.php?id=<?php echo $row['id_reclamation'];  ?>">Supprimer</a></td>
 

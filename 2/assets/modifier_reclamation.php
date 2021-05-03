@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$_SESSION['id']=2;
+
 
 include_once '../Model/reclamations.php';
 include_once '../Controller/reclamationC.php';
@@ -8,7 +10,7 @@ include_once '../Controller/reclamationC.php';
 
 // create an instance of the controller
 $reclamationC = new reclamationC();
-$liste=$reclamationC->recupererreclamation($_GET['id']);
+$liste2=$reclamationC->recupererreclamation($_GET['id']);
 
 if (isset($_POST["type_reclamation"])&& isset($_POST["description_reclamation"]))
      {
@@ -1069,6 +1071,7 @@ if (isset($_POST["type_reclamation"])&& isset($_POST["description_reclamation"])
 
 
                                               <td><?php echo $row['description_reclamation'];  ?></td>
+                                              
                                               <td><?php echo $row['nom'];  ?> <?php echo $row['prenom'];  ?></td>
 
 
