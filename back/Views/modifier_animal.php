@@ -110,6 +110,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
     <script src="..\js/Chart.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
     <script src="..\sort.js"></script>
 </head>
 
@@ -391,6 +393,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="agile-tables">
                     <div class="w3l-table-info">
                         <h2 id="forms-example" class="">La liste des animaux</h2>
+                        <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export to PDF</button>
   <input type="text" name="search_animal" id="search_animal" class="form-control" placeholder="Rercher"/>
                     <table id ="customers">
                       <thead class ="thead-inverse">
@@ -414,6 +417,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
 
                 </section>
+                <script>
+                function PPDDFF() {
+                  const element = document.getElementById("customers");
+                  html2pdf()
+                  .from(element)
+                  .save();
+
+
+                }
+                </script>
                 <script>
                   $(document).ready(function() {
                     $('#search_animal').keyup(function() {
@@ -439,8 +452,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </script>
                 <div class="charts">
                     <div class="col-md-4 w3l-char">
-						<div class="charts-grids widget">
+						<div class="charts-grids widget" id="pdf">
 							<h4 class="title">Stat des especes des animaux</h4>
+              <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export as PDF</button>
 							<canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
 						</div>
 					</div>
@@ -480,6 +494,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
 
 							</script>
+            </script>
+            <script>
+            function PPDDFF() {
+              const element = document.getElementById("pdf");
+              html2pdf()
+              .from(element)
+              .save();
+
+
+            }
+            </script>
 
                 </div>
 
@@ -531,6 +556,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <li><a href="gestion_plantes.php">gestion des plantes</a></li>
                                 <li><a href="animaux.php">gestion des animaux</a></li>
                                 <li><a href="gestion_produits.php">gestion des produits</a></li>
+                                <li><a href="gestion_blog.php">gestion des blogs</a></li>
 
                             </ul>
                         </li>

@@ -1,11 +1,25 @@
 <?php
 include_once "animal.php";
 include_once "animalC.php";
+include_once "BlogC.php";
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+        'SELECT * FROM blog'
+    );
+    $query->execute();
+$result = $query->fetchAll();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+session_start();
 $error = "";
 $success = 0;
 // create user
 $animal = null;
 $animalC = new animalC();
+$blogC = new BlogC();
 
 ?>
 
@@ -88,6 +102,9 @@ $animalC = new animalC();
                         <li class="nav-item  mt-lg-0 mt-3">
                             <a class="nav-link scroll" href="#about">about</a>
                         </li>
+                        <li class="nav-item  mt-lg-0 mt-3">
+                            <a class="nav-link scroll" href="#about">Blog</a>
+                        </li>
                         <li class="nav-item mt-lg-0 mt-3">
                             <a class="nav-link scroll" href="#services">features</a>
                         </li>
@@ -106,9 +123,8 @@ $animalC = new animalC();
                             <a class="nav-link scroll" href="#contact">Contact</a>
                         </li>
                     </ul>
-                    <button type="button" class="btn  wthree-link-bnr bg-theme rounded-circle text-center mt-lg-0 mt-3" data-toggle="modal" aria-pressed="false" data-target="#exampleModal" data-blast="bgColor"> <span
-                            class="fa fa-user text-white"></span>
-                    </button>
+                    <li><a href="singin.php" > Sing in </a>
+                    </button></li>
                 </div>
 
             </nav>
@@ -759,74 +775,10 @@ $animalC = new animalC();
                 <p>Helping animals & working on environmental issues.</p>
             </div>
             <div class="row mt-4">
-                <!-- blog grid -->
-                <div class="col-lg-4 col-md-6 mt-sm-0 mt-4">
-                    <div class="card">
-                        <div class="card-header p-0 position-relative">
-                            <a href="#exampleModal2" data-toggle="modal" aria-pressed="false" data-target="#exampleModal2" role="button">
-                                <img class="card-img-bottom" src="images/g1.jpg" alt="Card image cap">
-                                <span class="fa fa-user post-icon bg-theme" aria-hidden="true" data-blast="bgColor"></span>
 
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="blog-title card-title font-weight-bold">
-                                <a href="#exampleModal2" data-toggle="modal" aria-pressed="false" data-target="#exampleModal2" role="button">Cras ultricies ligula sed.</a>
-                            </h5>
-                            <p>At vero eos et accusam et justo duo dolores et ea rebum. Lorem ipsum dolor sit
-                                ametLorem ipsum dolor sit amet,sed diam nonumy.</p>
-                            <label class="mt-2"> <span class="fa fa-calendar mr-3"></span>08.10.2018</label>
-                            <button type="button" class="btn blog-btn wthree-bnr-btn" data-toggle="modal" aria-pressed="false" data-target="#exampleModal2">
-                                Read more
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- //blog grid -->
-                <!-- blog grid -->
-                <div class="col-lg-4 col-md-6 mt-md-0 mt-sm-5 mt-4">
-                    <div class="card">
-                        <div class="card-header p-0 position-relative">
-                            <a href="#exampleModal3" data-toggle="modal" aria-pressed="false" data-target="#exampleModal3" role="button">
-                                <img class="card-img-bottom" src="images/g2.jpg" alt="Card image cap">
-                                <span class="fa fa-user post-icon bg-theme" aria-hidden="true" data-blast="bgColor"></span>
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="blog-title card-title font-weight-bold">
-                                <a href="#exampleModal3" data-toggle="modal" aria-pressed="false" data-target="#exampleModal3" role="button">magna porta auris.</a>
-                            </h5>
-                            <p>At vero eos et accusam et justo duo dolores et ea rebum. Lorem ipsum dolor sit
-                                ametLorem ipsum dolor sit amet,sed diam nonumy.</p>
-                            <label class="mt-2"> <span class="fa fa-calendar mr-3"></span>02.11.2018</label>
-                            <button type="button" class="btn blog-btn wthree-bnr-btn" data-toggle="modal" aria-pressed="false" data-target="#exampleModal3">
-                                Read more
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- //blog grid -->
-                <!-- blog grid -->
-                <div class="col-lg-4 col-md-6 mt-lg-0 mt-4 mx-auto">
-                    <div class="card">
-                        <div class="card-header p-0  position-relative">
-                            <a href="#exampleModal4" data-toggle="modal" aria-pressed="false" data-target="#exampleModal4" role="button">
-                                <img class="card-img-bottom" src="images/g3.jpg" alt="Card image cap">
-                                <span class="fa fa-user post-icon bg-theme" aria-hidden="true" data-blast="bgColor"></span>
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="blog-title card-title font-weight-bold">
-                                <a href="#exampleModal4" data-toggle="modal" aria-pressed="false" data-target="#exampleModal4" role="button">Cras ultricies ligula sed.</a>
-                            </h5>
-                            <p>At vero eos et accusam et justo duo dolores et ea rebum. Lorem ipsum dolor sit
-                                ametLorem ipsum dolor sit amet,sed diam nonumy.</p>
-                            <label class="mt-2"> <span class="fa fa-calendar mr-3"></span>10.11.2018</label>
-                            <button type="button" class="btn blog-btn wthree-bnr-btn" data-toggle="modal" aria-pressed="false" data-target="#exampleModal4">
-                                Read more
-                            </button>
-                        </div>
-                    </div>
+                <?php $blogC->afficherblog($result);?>
+
+
                 </div>
                 <!-- //blog grid -->
             </div>
@@ -1057,73 +1009,13 @@ $animalC = new animalC();
     </div>
     <!-- // register -->
     <!-- blog modal1 -->
-    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-theme">
-                    <h5 class="modal-title" id="exampleModalLabel2">Cras ultricies ligula sed.</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-                    <img src="images/g1.jpg" class="img-fluid" alt="" />
-                    <p class="text-left my-4">
-                        Quisque velit nisi, pretium ut lacinia in, elementum id enim. Curabitur non nulla sit amet
-                        nisl
-                        tempus convallis quis ac
-                        lectus. Cras ultricies ligula sed magna dictum porta.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php $blogC->afficherblog2($result);?>
     <!-- //blog modal1 -->
     <!-- blog modal2 -->
-    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-theme">
-                    <h5 class="modal-title" id="exampleModalLabel3">Cras ultricies ligula sed.</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-                    <img src="images/g2.jpg" class="img-fluid" alt="" />
-                    <p class="text-left my-4">
-                        Quisque velit nisi, pretium ut lacinia in, elementum id enim. Curabitur non nulla sit amet
-                        nisl
-                        tempus convallis quis ac
-                        lectus. Cras ultricies ligula sed magna dictum porta.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- //blog modal2 -->
     <!-- blog modal3 -->
-    <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-theme">
-                    <h5 class="modal-title" id="exampleModalLabel4">Cras ultricies ligula sed magna.</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-                    <img src="images/g3.jpg" class="img-fluid" alt="" />
-                    <p class="text-left my-4">
-                        Quisque velit nisi, pretium ut lacinia in, elementum id enim. Curabitur non nulla sit amet
-                        nisl
-                        tempus convallis quis ac
-                        lectus. Cras ultricies ligula sed magna dictum porta.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- //blog modal3-->
     <!-- js -->
     <script src="js/jquery-2.2.3.min.js"></script>

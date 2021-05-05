@@ -113,6 +113,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
     <script src="..\js/Chart.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
     <script src="..\sort.js"></script>
 </head>
 <body>
@@ -387,6 +389,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <section  id="affichage">
                     <div class="agile-tables">
                     <div class="w3l-table-info">
+                      <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export to PDF</button>
+
                         <h2 id="forms-example" class="">La liste des plantes</h2>
                           <input type="text" name="search_produit" id="search_produit" class="form-control" placeholder="Rercher"/>
                     <table id ="customers">
@@ -413,6 +417,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 </section>
                 <script>
+              function PPDDFF() {
+                const element = document.getElementById("customers");
+                html2pdf()
+                .from(element)
+                .save();
+
+
+              }
+              </script>
+                <script>
                   $(document).ready(function() {
                     $('#search_produit').keyup(function() {
                       search_table($(this).val());
@@ -437,17 +451,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </script>
                 <div class="charts">
                   <div class="col-md-4 w3layouts-char">
-						<div class="charts-grids widget">
-							<h4 class="title">Bar Chart Example</h4>
-							<canvas id="bar" width="680" height="600" style="width: 544px; height: 480px;"> </canvas>
-						</div>
-					</div>
+            <div class="charts-grids widget"id="pdf2">
+              <h4 class="title">Bar Chart Example</h4>
+              <button onclick="PPDDFF2()" class="btn btn-xs btn-primary btn-block"> Export as PDF</button>
+              <canvas id="bar" width="680" height="600" style="width: 544px; height: 480px;"> </canvas>
+            </div>
+          </div>
                     <div class="col-md-4 w3l-char">
-						<div class="charts-grids widget">
-							<h4 class="title">Stat des type des produits</h4>
-							<canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
-						</div>
-					</div>
+            <div class="charts-grids widget" id="pdf">
+              <h4 class="title">Stat des type des produits</h4>
+              <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export as PDF</button>
+              <canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
+            </div>
+          </div>
 
                     <?php
                     $pdo=config::getConnexion();
@@ -479,22 +495,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                     <script>
                     var barChartData = {
-									<?php echo "labels :".$lables.",";?>
-									datasets : [
-										{
-											<?php echo "fillColor :'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
+                  <?php echo "labels :".$lables.",";?>
+                  datasets : [
+                    {
+                      <?php echo "fillColor :'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
                       echo "strokeColor :'rgba(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
-											 ?>
-											highlightFill: "#e74c3c",
-											highlightStroke: "#e74c3c",
-											<?php echo "data :".$valuess.",";?>
-										},
+                       ?>
+                      highlightFill: "#e74c3c",
+                      highlightStroke: "#e74c3c",
+                      <?php echo "data :".$valuess.",";?>
+                    },
 
-									]
+                  ]
 
-								};
+                };
 
-								var pieData = [
+                var pieData = [
                                     <?php
 
                                     foreach($stat as $count) {
@@ -511,12 +527,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 
-									];
+                  ];
 
 
                 new  Chart(document.getElementById("bar").getContext("2d")).Bar(barChartData);
-							new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
-							</script>
+              new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
+
+              </script>
+            </script>
+            <script>
+            function PPDDFF() {
+              const element = document.getElementById("pdf");
+              html2pdf()
+              .from(element)
+              .save();
+
+
+            }
+            </script>
+            <script>
+            function PPDDFF2() {
+              const element = document.getElementById("pdf2");
+              html2pdf()
+              .from(element)
+              .save();
+
+
+            }
+            </script>
+
+
 
 
 
@@ -567,6 +607,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <li><a href="gestion_plantes.php">gestion des plantes</a></li>
                                 <li><a href="animaux.php">gestion des animaux</a></li>
                                 <li><a href="gestion_produits.php">gestion des produits</a></li>
+                                <li><a href="gestion_blog.php">gestion des blogs</a></li>
 
                             </ul>
                         </li>

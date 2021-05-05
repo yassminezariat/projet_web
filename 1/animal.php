@@ -9,16 +9,6 @@
         private ?string $image=null;
 
 
-
-
-
-
-
-
-
-
-
-
         public function __construct(string $race, string $espece, string $date_naissance, int $prix,string $origine,string $image) {
            $this->race=$race;
            $this->espece=$espece;
