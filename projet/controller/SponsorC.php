@@ -91,6 +91,19 @@ class SponsorC {
             die('Erreur: '.$e->getMessage());
         }
     }
+
+    function rechercherSponsor($str){
+        $sql="SELECT * FROM sponsor where type like '$str%' or nom like '$str%' or prenom like '$str%' ";
+        $db = config::getConnexion();
+        try{
+            $liste=$db->query($sql);
+            return $liste;
+        }
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }
+    }
+
 }
 
 ?>

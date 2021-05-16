@@ -1,7 +1,13 @@
 <?php
 include "../controller/SponsorC.php";
 $sponsorc = new SponsorC();
-$liste=$sponsorc->afficherSponsor();
+if(isset($_POST['recherche'])){
+    $liste=$sponsorc->rechercherSponsor($_POST['recherche']);
+}
+else{
+    $liste=$sponsorc->afficherSponsor();
+}
+
 
 ?>
 <!DOCTYPE HTML>
@@ -233,6 +239,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="grid-form1">
                 <h3>Les Sponsors</h3>
                 <div class="tab-content">
+                <form method="post" action="sponsors.php">
+                    <input type="text" name="recherche" class="form-control" >
+                    <br>
+                    <input type="submit" value="Rechercher" class="btn btn-info" >
+                </form>
                     <table class="table">
                         <tr>
                             <th>Nom</th>
@@ -314,7 +325,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <li id="menu-academico"><a href="events.php"><i class="fa fa-envelope nav_icon"></i><span>Evenements</span>
                     <div class="clearfix"></div>
                 </a></li>
-            <li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Gallery</span>
+
+                
+                <li id="menu-academico"><a href="statsEvent.php"><i class="fa fa-envelope nav_icon"></i><span>Stats evenement</span>
                     <div class="clearfix"></div>
                 </a></li>
             <li id="menu-academico"><a href="charts.html"><i class="fa fa-bar-chart"></i><span>Charts</span>
