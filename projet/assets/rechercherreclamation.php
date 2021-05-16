@@ -325,7 +325,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                   <option value="nom">nom</option>
                                                   <option value="prenom">prenom</option>
  	                                                 </select><br>
-                                         <input type="submit" name="button">
+                                         <input type="submit" name="button" value="rechercher">
                                          </form>
                                         <br></br>
                                         <br></br>
@@ -335,7 +335,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                  <option value="nom">nom</option>
                                                  <option value="prenom">prenom</option>
                                                   </select><br>
-                                                  <input type="submit" name="button">
+                                                  <input type="submit" name="button" value="trier">
                                         </form>
 
 
@@ -425,13 +425,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                             <option value="nom">nom</option>
                                                             <option value="prenom">prenom</option>
                                                              </select><br>
-                                                             <input type="submit" name="button">
+                                                             <input type="submit" name="button" value="trier">
                                                    </form>
 
 
 
 
-                                                
+
                                                  <table>
                                                    <?php
                                                    $search = $_GET['search'];
@@ -457,8 +457,8 @@ echo ("</th>");
 
 echo("</tr>");
                                                  ?>  <?php
-                                                 $reclamationsC=new reclamationsC();
-     $pdo=config::getConnexion();
+         $reclamationsC=new reclamationsC();
+         $pdo=config::getConnexion();
          $query= $pdo ->prepare("SELECT reclamations.*,utilisateur.nom,utilisateur.prenom FROM reclamations inner join utilisateur on reclamations.id_user=utilisateur.id where $column like '%$search%'");
          $query->execute();
          $result = $query->fetchAll();
@@ -488,6 +488,7 @@ echo("</tr>");
           echo $rows['reponse'];
           echo ("</td>");
 
+
       echo("</tr>");
   }
  echo("</table>");}
@@ -499,57 +500,39 @@ echo("</tr>");
                                                  </div>
                                                  <form action="gestion_avis.php" method="" >
 
-                                                           <input type="submit" name="retour">
+                                                           <input type="submit" name="retour" value="retour">
                                                  </form>
 
                            <form action="" method="POST" class="form">
                              </div>
                                <div class="form-group">
-   <h3 for="exampleInputPassword1"> </h3>
-
-
+                                 <h3 for="exampleInputPassword1"> </h3>
                                  <br></br>
-
                                  <div class="form-group">
-
                                  </div>
-
                                <div class="panel-footer">
                                    <div class="row">
                                        <div class="col-sm-8 col-sm-offset-2">
-                                           <input class="btn-primary btn" type="submit" value="            ">
+                                        <input class="btn-primary btn" type="submit" value="            ">
                                        </div>
                                    </div>
                                </div>
                            </form>
-                       </div>
+                              </div>
                        <!----->
 
                            <div class="bs-example" data-example-id="form-validation-states-with-icons">
-                               <form>
-
-
-                                   <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
+                             <form>
+                            <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
                            </div>
-
-
                            </form>
-                       </div>
-                   </div>
-
-
-
-
-                 </section>
+                          </div>
+                           </div>
+                                          </section>
 
 
                 <!--//grid-->
                 <br></br>
-
-
-
-
-
 
                 <!-- script-for sticky-nav -->
                 <script>

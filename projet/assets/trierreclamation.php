@@ -325,7 +325,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                   <option value="nom">nom</option>
                                                   <option value="prenom">prenom</option>
  	                                                 </select><br>
-                                         <input type="submit" name="button">
+                                         <input type="submit" name="button" value="rechercher">
                                          </form>
                                         <br></br>
                                         <br></br>
@@ -335,7 +335,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                  <option value="nom">nom</option>
                                                  <option value="prenom">prenom</option>
                                                   </select><br>
-                                                  <input type="submit" name="button">
+                                                  <input type="submit" name="button" value="trier">
                                         </form>
 
 
@@ -428,7 +428,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                             <option value="nom">nom</option>
                                                             <option value="prenom">prenom</option>
                                                              </select><br>
-                                                   <input type="submit" name="button">
+                                                   <input type="submit" name="button" value="rechercher">
                                                    </form>
 
 
@@ -498,7 +498,7 @@ else
                                                  <!--retour a la page d'acc-->
                                                  <form action="gestion_avis.php" method="" >
 
-                                                           <input type="submit" name="retour">
+                                                           <input type="submit" name="retour" value="retour">
                                                  </form>
                                                  <!--//retour a la page d'acc-->
 

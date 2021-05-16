@@ -486,23 +486,12 @@ else
                                                             <option value="nom">nom</option>
                                                             <option value="prenom">prenom</option>
                                                              </select><br>
-                                                             <input type="submit" name="button">
+                                                             <input type="submit" name="button" value="trier">
                                                    </form>
 
 
 
-                                                   <div class="form-group">
-                                                     <h3 for="exampleInputPassword1">Etat de la reclamation </3>
-                                                     <select name="etat_reclamation">
-                                                       <option value="reclamation traitee">reclamation traitee</option>
-                                                       <option value="reclamation non traitee">reclamation non traitee</option>
 
-                                                     </select>
-                                                   </div>
-                                                   <div class="form-group">
-                                                     <h3 for="exampleInputPassword1">Reponse</3>
-                                                     <input type="text" name="reponse" >
-                                                   </div>
                                                  <table>
                                                      <tr>
                                                          <th>type_reclamation</th>

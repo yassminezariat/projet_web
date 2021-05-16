@@ -1081,7 +1081,7 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                                     <div class="grid-form1">
                                     <table>
                                         <tr>
-
+                                            <th>client</th>
                                             <th>type_reclamation</th>
                                             <th>description_reclamation</th>
 
@@ -1091,6 +1091,7 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                                         foreach ($liste2 as $row){
                                           ?>
                                             <tr>
+                                              <td><?php echo $row['nom'];  ?> <?php echo $row['prenom'];  ?></td>
 
                                               <td><?php echo $row['type_reclamation'];  ?></td>
 
@@ -1150,7 +1151,7 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" method="post" class="p-sm-3">
+                    <form action="#" method="post" class="p-sm-3" onSubmit="return Verification2()" >
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">type de reclamation</label>
                             <select name="type_reclamation"  class="form-control" placeholder="type_reclamation" id="type_reclamation" required="">
@@ -1178,6 +1179,22 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                             <input type="submit" class="form-control" value="ENVOYER">
                         </div>
                     </form>
+                    <script>
+                    function Verification2() {
+                      var mess = document.getElementById('description_reclamation').value;
+                      if(mess==''){
+                    alert('Vous devez ecrire un message !');
+                    document.getElementById('description_reclamation').style.backgroundColor="red";
+                    document.getElementById('description_reclamation').style.color="#FFF";
+
+                    // Permet de bloquer l'envoi du formulaire
+                    return false;
+                    }
+                    else{
+                    document.getElementById('description_reclamation').style.backgroundColor="#9C6";
+                    }
+                    }
+                    </script>
                 </div>
             </div>
         </div>

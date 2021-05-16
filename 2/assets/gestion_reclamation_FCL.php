@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$_SESSION['id']=2;
+$_SESSION['id']=3;
 
 include_once '../Controller/connection.php';
 
@@ -1079,14 +1079,15 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                 </div>
                 <div class="modal-body" >
                     <form action="#" method="post" class="p-sm-3">
-                      <section  id="affichagere" style="background-color: rgb(211, 184, 0);" >
+                      <section  id="affichagere"  >
                                     <div class="grid-form1">
                                     <table>
                                         <tr>
 
-                                            <th>type_reclamation</th>
-                                            <th>description_reclamation</th>
-                                            <th>etat_reclamation</th>
+                                            <th style="background-color: rgb(211, 184, 0);">type_reclamation</th>
+                                            <th style="background-color: rgb(211, 184, 0);">description_reclamation</th>
+                                            <th style="background-color: rgb(211, 184, 0);">etat_reclamation</th>
+                                            <th style="background-color: rgb(211, 184, 0);">reponse</th>
 
                                         </tr>
                                         <?php
@@ -1094,11 +1095,13 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                                           ?>
                                             <tr>
 
-                                              <td><?php echo $row['type_reclamation'];  ?></td>
+                                              <td style="color: rgb(0, 0, 0);"><?php echo $row['type_reclamation'];  ?></td>
 
-                                              <td><?php echo $row['description_reclamation'];  ?></td>
+                                              <td style="color: rgb(0, 0, 0);" ><?php echo $row['description_reclamation'];  ?></td>
 
-                                                <td><?php echo $row['etat_reclamation'];  ?></td>
+                                                <td style="color: rgb(0, 0, 0);" ><?php echo $row['etat_reclamation'];  ?></td>
+
+                                                <td style="color: rgb(0, 0, 0);"><?php echo $row['reponse'];  ?></td>
 
                                               <td><a href="supprimer_reclamation.php?id=<?php echo $row['id_reclamation'];  ?>">Supprimer</a></td>
 

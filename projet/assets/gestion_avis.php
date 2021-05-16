@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$_SESSION['id']=1;
+$_SESSION['id']=3;
 
 include_once '../Model/avis.php';
 
@@ -134,10 +134,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                     <div class="w3layouts-right">
                         <div class="profile_details_left">
+
+
                             <!--notifications of menu start -->
                             <ul class="nofitications-dropdown">
                                 <li class="dropdown head-dpdn">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope"></i><span class="badge">3</span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                      <i class="fa fa-envelope"></i><span class="badge">3</span>
+                                    </a>
+
+
+
                                     <ul class="dropdown-menu">
                                         <li>
                                             <div class="notification_header">
@@ -145,13 +152,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             </div>
                                         </li>
                                         <li><a href="#">
-                                                <div class="user_img"><img src="images/in11.jpg" alt=""></div>
+                                                <div class="user_img"><img src="images/in11.jpg" alt="">
+                                                </div>
                                                 <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor</p>
-                                                    <p><span>1 hour ago</span></p>
+
                                                 </div>
                                                 <div class="clearfix"></div>
-                                            </a></li>
+                                            </a>
+                                          </li>
                                         <li class="odd"><a href="#">
                                                 <div class="user_img"><img src="images/in10.jpg" alt=""></div>
                                                 <div class="notification_desc">
@@ -175,45 +183,74 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         </li>
                                     </ul>
                                 </li>
+
+
+
                                 <li class="dropdown head-dpdn">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge blue">3</span></a>
+
+
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-bell"></i>
+                                      <?php
+                                      $reclamationsC=new reclamationsC();
+
+                                      $pdo=config::getConnexion();
+                                      $query= $pdo ->prepare("SELECT COUNT(type_reclamation) FROM reclamations ");
+                                    $count = $query->execute();
+                                    ?>
+
+
+                                      <span class="badge blue" id="count">
+
+                                        <?php
+                                  echo $count ;
+
+                                        ?>
+
+                                      </span>
+
+
+                                    </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <div class="notification_header">
-                                                <h3>You have 3 new notification</h3>
-                                            </div>
+
                                         </li>
+
                                         <li><a href="#">
-                                                <div class="user_img"><img src="images/in8.jpg" alt=""></div>
-                                                <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor</p>
-                                                    <p><span>1 hour ago</span></p>
-                                                </div>
+
+
                                                 <div class="clearfix"></div>
-                                            </a></li>
-                                        <li class="odd"><a href="#">
-                                                <div class="user_img"><img src="images/in6.jpg" alt=""></div>
-                                                <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor</p>
-                                                    <p><span>1 hour ago</span></p>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="user_img"><img src="images/in7.jpg" alt=""></div>
-                                                <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor</p>
-                                                    <p><span>1 hour ago</span></p>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </a></li>
+                                            </a>
+                                        </li>
                                         <li>
                                             <div class="notification_bottom">
+                                              <?php
+                                              $reclamationsC=new reclamationsC();
+
+                                              $pdo=config::getConnexion();
+                                              $query= $pdo ->prepare("SELECT COUNT(type_reclamation) FROM reclamations ");
+                                              $count = $query->execute();
+                                              
+                                              ?>
+
+
+                                              <span class="badge blue" >
+
+                                                <?php
+                                              echo $count ;
+
+                                                ?>
+
+                                              </span>
                                                 <a href="#">See all notifications</a>
                                             </div>
                                         </li>
                                     </ul>
                                 </li>
+
+
+
+
                                 <li class="dropdown head-dpdn">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tasks"></i><span class="badge blue1">9</span></a>
                                     <ul class="dropdown-menu">
@@ -317,7 +354,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                          <section  id="affichage">
                                        <div class="grid-form1">
                                          <form action="rechercheravis.php" method="get">
-                                         chercher par <input type="text" name="search"><br>
+                                         chercher par <input type="text" name="search"> <br>
 
                                          choix: <select name="column">
  	                                                <option value="type_avis">type_avis</option>
@@ -325,7 +362,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                   <option value="nom">nom</option>
                                                   <option value="prenom">prenom</option>
  	                                                 </select><br>
-                                         <input type="submit" name="button">
+                                         <input type="submit" name="button" value="rechercher">
                                          </form>
                                         <br></br>
                                         <br></br>
@@ -335,7 +372,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                  <option value="nom">nom</option>
                                                  <option value="prenom">prenom</option>
                                                   </select><br>
-                                                  <input type="submit" name="button">
+                                                  <input type="submit" name="button" value="trier">
                                         </form>
 
 
@@ -372,6 +409,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                          </table>
                                        </div>
 
+                                       <!--stat sur les avis -->
 
                                        <section>
                                          <script src="js/Chart.js"></script>
@@ -390,9 +428,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
              var pieData = [
                   <?php
                    foreach ($result as $row) {
-                     // code...
+
                      echo "{value:".$row['nombre'].",";
-                                        echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";echo "label: '",$row['type_avis'], "'},";
+                     echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
+                     echo "label: '",$row['type_avis'], "'
+                   },";
 
 } ?>
 
@@ -405,6 +445,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                                        </section>
 
+                                       <!--fin stat sur les avis -->
+
 <br></br>
 <br></br>
 <br></br>
@@ -414,11 +456,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <br></br>
 
                                    </section>
+
+
+
+                                   <!--debut affichage liste reclamation-->
+
+
                                    <section  id="affichagere">
                                      <h2 id="forms-example" class=""> consulter la liste des reclamations</h2>
                                                  <div class="grid-form1">
                                                    <form action="rechercherreclamation.php" method="get">
-                                                   chercher par <input type="text" name="search"><br>
+                                                   chercher par <input type="text" name="search" ><br>
 
                                                    choix: <select name="column">
                                                             <option value="type_reclamation">type_reclamation</option>
@@ -426,7 +474,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                             <option value="nom">nom</option>
                                                             <option value="prenom">prenom</option>
                                                              </select><br>
-                                                   <input type="submit" name="button">
+                                                   <input type="submit" name="button" value="rechercher">
                                                    </form>
 
                                                    <form action="trierreclamation.php" method="get" >
@@ -435,10 +483,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                             <option value="nom">nom</option>
                                                             <option value="prenom">prenom</option>
                                                              </select><br>
-                                                             <input type="submit" name="button">
+                                                             <input type="submit" name="button" value="trier">
                                                    </form>
 
-                                                  
+
 
 
                                                  <table>
@@ -470,6 +518,75 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 
+
+                                                 <div class="charts">
+                   <div class="col-md-4 w3layouts-char">
+ 						<div class="charts-grids widget">
+ 							<h4 class="title">statistique</h4>
+ 							<canvas id="bar" width="680" height="600" style="width: 544px; height: 480px;"> </canvas>
+ 						</div>
+ 					</div>
+
+          <!-- debut de la premiere stat sur les reclamations -->
+
+                               <?php
+
+                                $query= $pdo ->prepare("select count(type_reclamation)as nombre,type_reclamation from reclamations GROUP by type_reclamation");
+                                $query->execute();
+                                 $bar = $query->fetchAll();
+                                 (string)$lables="[";
+                                 (string)$valuess='[';
+
+                                 foreach($bar as $choix) {
+                                 $lables .= "'".$choix['type_reclamation']."'".",";
+                                 $valuess.="'".(int)$choix['nombre']."'".",";
+
+
+
+                                 }
+                                   $lables.=']';
+                                   $valuess.=']';
+
+
+
+                               ?>
+
+
+                               <script>
+                               var barChartData = {
+           									<?php echo "labels :".$lables.",";?>
+           									datasets : [
+           										{
+           											<?php echo "fillColor :'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
+                                 echo "strokeColor :'rgba(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
+           											 ?>
+           											highlightFill: "#e74c3c",
+           											highlightStroke: "#e74c3c",
+           											<?php echo "data :".$valuess.",";?>
+           										},
+
+           									]
+
+           								};
+
+
+
+
+                           new  Chart(document.getElementById("bar").getContext("2d")).Bar(barChartData);
+
+
+           							</script>
+
+              <!--fin stat1 reclamation -->
+
+              <!--debut stat2 reclamation -->
+
+
+
+              <!--fin stat2 reclamation -->
+
+
+
                            <form action="" method="POST" class="form">
 
 
@@ -492,6 +609,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                    </div>
                                </div>
                            </form>
+
                        </div>
                        <!----->
 
@@ -506,7 +624,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                            </form>
                        </div>
                    </div>
-
 
 
 

@@ -328,7 +328,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                  <option value="nom">nom</option>
                                                  <option value="prenom">prenom</option>
                                                   </select><br>
-                                        <input type="submit" name="button">
+                                        <input type="submit" name="button" value="rechercher">
                                         </form>
 
 
@@ -411,7 +411,7 @@ else
    <!--retour a la page d'acc-->
                                        <form action="gestion_avis.php" method="" >
 
-                                                 <input type="submit" name="retour">
+                                                 <input type="submit" name="retour" value="retour">
 
                                                  <!--//retour a la page d'acc-->
 
@@ -475,7 +475,7 @@ else
                                                             <option value="nom">nom</option>
                                                             <option value="prenom">prenom</option>
                                                              </select><br>
-                                                   <input type="submit" name="button">
+                                                   <input type="submit" name="button" value="rechercher">
                                                    </form>
 
                                                    <form action="trierreclamation.php" method="get" >
@@ -484,23 +484,12 @@ else
                                                             <option value="nom">nom</option>
                                                             <option value="prenom">prenom</option>
                                                              </select><br>
-                                                             <input type="submit" name="button">
+                                                             <input type="submit" name="button" value="trier">
                                                    </form>
 
 
 
-                                                   <div class="form-group">
-                                                     <h3 for="exampleInputPassword1">Etat de la reclamation </3>
-                                                     <select name="etat_reclamation">
-                                                       <option value="reclamation traitee">reclamation traitee</option>
-                                                       <option value="reclamation non traitee">reclamation non traitee</option>
 
-                                                     </select>
-                                                   </div>
-                                                   <div class="form-group">
-                                                     <h3 for="exampleInputPassword1">Reponse</3>
-                                                     <input type="text" name="reponse" >
-                                                   </div>
                                                  <table>
                                                      <tr>
                                                          <th>type_reclamation</th>
