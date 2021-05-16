@@ -121,7 +121,7 @@ include_once "connection.php";
                 public  function unique_log($ch) {
                $utiC=new UtilisateurC();
                $pdo=config::getConnexion();
-                   $query= $pdo ->prepare("select * from utilisateur where login= '$ch' ");
+                   $query= $pdo ->prepare("select * from utilisateur where login= '$ch ");
                    $query->execute(['login' => $ch]);
                     $result = $query->fetchAll();
                     foreach($result as $rows)
