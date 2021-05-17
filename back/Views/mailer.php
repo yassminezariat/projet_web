@@ -1,51 +1,28 @@
-
 <?php
-include_once "..\Model\blogm.php";
-include_once "..\controller\blogC.php";
+if (isset($_POST['ajax'])) {
+$to = $_POST['to'];
+$subject = $_POST['sub'];
+$msg = $_POST['msg'];
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+$headers .= "From: ".$_POST['name']."<".$_POST['from'].">";
 
-$id = $_GET['id'];
 
-$blogC = new blogC();
-$pdo=config::getConnexion();
-$query= $pdo ->prepare("select * from blog where id= '$id'");
+mail($to,$subject,$msg,$headers);
+header("location: gestion_blog.php");
 
-$query->execute();
- $result = $query->fetchAll();
-if(isset($_POST['cancel']))
-{ header("location:gestion_blog.php");}
-
-if (isset($_POST["titre"])&& isset($_POST["sujet"]) && isset($_POST["article"])&& isset($_POST["image"]))
-    {//{if (empty($_POST["nom"])&& empty($_POST["prenom"]) && empty($_POST["dateNais"]) && empty($_POST["email"]) && empty($_POST["tel"]) && empty($_POST["adresse"]) && empty($_POST["login"]) && empty($_POST["pass"])) {
-
-    $blog = new blog(
-        $_POST['titre'],
-        $_POST['sujet'],
-        $_POST['article'],
-        (string)$_POST['image']
-
-    );
-    $blogC->modifierblog($_POST['titre'],$_POST['sujet'],  $_POST['article'],(string)$_POST['image'],$id);
-    $success = 1;
-    header("location: gestion_blog.php");
-
-//}
 }
-
-
 ?>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>Pooled Admin Panel Category Flat Bootstrap Responsive Web Template | Input :: w3layouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
     <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript">
-
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
@@ -54,49 +31,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             window.scrollTo(0, 1);
         }
     </script>
-    <style>
-#customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #4CAF50;
-  color: white;
-}
-
-#customers th.headerSortUp{
-   background-image:url("../images/up.png") ;
-   background-color: #3399FF;
-   background-repeat:no-repeat;
-   background-position: center right;
-
-
- }
- #customers th.headerSortDown{
-   background-image:url("../images/down.png") ;
-   background-color: #3399FF;
-
-   background-repeat:no-repeat;
-   background-position: center right;
-
-
- }
-
-</style>
     <!-- Bootstrap Core CSS -->
     <link href="..\css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <!-- Custom CSS -->
@@ -112,14 +46,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- lined-icons -->
     <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
-    <script src="..\js/Chart.js"></script>
-    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-    <script src="..\sort.js"></script>
-
 </head>
 
 <body>
-    <script src="..\contole_de_saisie.js"></script>
     <div class="page-container">
         <!--/content-inner-->
         <div class="left-content">
@@ -310,204 +239,111 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <!--heder end here-->
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Gestion des animaux</li>
+                    <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Forms <i class="fa fa-angle-right"></i> Input</li>
                 </ol>
-                <!--ajout d'un animal-->
-              <section id="ajout">
+                <!--grid-->
                 <div class="grid-form">
-                    <div class="grid-form1">
-                        <h2 id="forms-example" class="">Ajouter un animal</h2>
-                        <?php foreach($result as $rows) {?>
-                        <form action="" method="POST" onSubmit="return controledesaisie()">
-
-                            <div id="div_espece" class="form-group">
-                                <label for="exampleInputPassword1">Titre</label>
-                                <input type="text" class="form-control1" name="titre" id="titre" value="<?php echo $rows['titre'] ?>" placeholder="Titre">
-                                <div  role="alert" id="err_espece" ></div>
-                            </div>
-                            <div id="div_espece" class="form-group">
-                                <label for="exampleInputPassword1">Sujet</label>
-                                <input type="text" class="form-control1" name="sujet" value="<?php echo $rows['sujet'] ?>" id="sujet" placeholder="Sujet">
-                                <div  role="alert" id="err_espece" ></div>
-                            </div>
-                            <div id="div_date_naissance" class="form-group">
-                                <label for="exampleInputPassword1">Article</label>
-                                <textarea class="form-control1" name="article" id="article"  name="trip-start"> <?php echo $rows['article'] ?>
-                                </textarea>
-                                <div  role="alert" id="err_date_naissance" ></div>
-                                <script src="..\ckeditor\ckeditor.js"></script>
-                                <script > CKEDITOR.replace('article');</script>
-                            </div>
-                            <div id="div_image" class="form-group">
-                                <label for="exampleInputFile">Image</label>
-                                <input type="file" class="form-control1" name="image" id="image">
-                                <div  role="alert" id="err_image" ></div>
-                            </div>
-
-                            <?php } ?>
 
 
-                            <div class="panel-footer">
-                                <div class="row">
-                                    <div class="col-sm-8 col-sm-offset-2">
-                                        <input class="btn-primary btn" type="submit" value="Submit">
-                                        <button class="btn-default btn" >Cancel</button>
-                                        <button class="btn-inverse btn">Reset</button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!----->
-
-                        <div class="bs-example" data-example-id="form-validation-states-with-icons">
-                            <form>
+									<section id="ajout">
+										<div class="grid-form">
+												<div class="grid-form1">
+														<h2 id="forms-example" class="">Ajouter une plante</h2>
+														<form action="" method="POST" onSubmit="return controlersaisie();">
+															<div id="div_environnement" class="form-group">
+																<div>
+		<input type="text" name="from" id="from" class="form-control"  value="planimocontact@gmail.com" readonly required autofocus>
+		<input type="text" name="name" id="name" class="form-control"  value="Planimo" readonly required autofocus>
+	</div><br>
 
 
-                                <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
-                        </div>
+                                  <label for="exampleInputPassword1">Email Address</label>
 
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-envelope-o"></i>
+                                            </span>
+                                            <input type="text" name="to" id="to" class="form-control1" placeholder="Email Address">
+                                        </div>
+																				</div>
 
-                        </form>
-                    </div>
-                </div>
-                </section>
-                <!--//final ajout animal-->
-
-                <script>
-
-                $(document).ready(function() {
-                  $('#customers').tablesorter();
-
-                });
+															<div id="div_environnement" class="form-group">
+																	<label for="exampleInputPassword1">Subject</label>
+																	<input type="text"   class="form-control1" name="sub" id="sub" placeholder="Subject">
+																	<div  role="alert" id="err_environnement" ></div>
+															</div>
+															<div id="div_environnement" class="form-group">
+																	<label for="exampleInputPassword1">Message</label>
+																	<input type="text"   class="form-control1" name="msg" id="msg" placeholder="Write your message here ... ">
+																	<div  role="alert" id="err_environnement" ></div>
+															</div>
 
 
 
-                </script>
-
-                <!--affichage animal-->
-
-                <section  id="affichage">
-                    <div class="agile-tables" id="affichagePDF">
-                    <div class="w3l-table-info">
-                        <h2 id="forms-example" class="">La liste des animaux</h2>
-                        <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export as PDF</button>
-                        <input type="text" name="search_animal" id="search_animal" class="form-control" placeholder="Rercher"/>
-
-                    <table id ="customers">
-                      <thead class ="thead-inverse">
-                        <tr>
-                            <th>Id   </th>
-                            <th>Titre       </th>
-                            <th>Sujet</th>
-                            <th>Article</th>
-                            <th>Image</th>
-                            <th>Modifier</th>
-                            <th>Supprimer</th>
-                          </thead>
-
-                        </tr>
-
-                        <?php $blogC = new blogC();
-                            $blogC->afficherblog();
-                        ?>
-                    </div>
-                    </div>
-
-                </section>
-                <script>
-                function PPDDFF() {
-                  const element = document.getElementById("customers");
-                  html2pdf()
-                  .from(element)
-                  .save();
+															<div class="panel-footer">
+																	<div class="row">
+																			<div class="col-sm-8 col-sm-offset-2">
+																				<button class="btn-primary btn" id="btn" type="submit" onclick="return false">SEND</button>
 
 
-                }
-                </script>
+																			</div>
+																	</div>
+															</div>
+													</form>
+											</div>
+											<!----->
+											<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#btn").on('click',function(){
+		var mailist = $("#to").val().split("\n");
+		var tmailist =  mailist.length;
+		for (var current = 0; current < tmailist; current++) {
+		var from = $("#from").val();
+		var name = $("#name").val();
+		var sub = $("#sub").val();
+		var msg = $("#msg").val();
+		var to = mailist[current];
+		var data = "ajax=1&from=" + from + "&name=" + name + "&sub=" + sub + "&msg=" + msg + "&to=" + to;
+			$.ajax({
+				type : 'POST',
+				data:  data,
+				success: function(data) {
+	                $("#result").append(data);
+	            }
+			});
+		}
+		var lancer="oui";
+
+	if(document.getElementById("to").value=="")
+	{
+		alert(" Mailist est vide ! Vous devez saisir votre mail");
+		lancer="non";
+	}
+	else if(document.getElementById("to").value.indexOf("@")==-1 || document.getElementById("to").value.indexOf(".")==-1 || document.getElementById("to").value.indexOf(".tn")==-1)
+	{
+		alert("Votre mail ne semble pas correct, corrigez-le");
+		lancer="non";
+	}
 
 
+	});
+});
+</script>
+
+													<div class="bs-example" data-example-id="form-validation-states-with-icons">
+															<form>
 
 
-
-                <script>
-                  $(document).ready(function() {
-                    $('#search_animal').keyup(function() {
-                      search_table($(this).val());
-                    });
-
-                    function search_table(value) {
-                      $('#customers tr').each(function() {
-                        var found = 'false';
-                        $(this).each(function() {
-                          if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-                            found = 'true';
-                          }
-                        });
-                        if (found == 'true') {
-                          $(this).show();
-                        } else {
-                          $(this).hide();
-                        }
-                      });
-                    }
-                  });
-                </script>
-                <!--//final affichage animal-->
-
-                <!-- stat des animaux-->
-                <div class="charts">
-                    <div class="col-md-4 w3l-char">
-            <div class="charts-grids widget"  id="pdf">
-              <h4 class="title">Stat des sujets</h4>
-              <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export as PDF</button>
-              <canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
-            </div>
-          </div>
-
-                    <?php
-                    $pdo=config::getConnexion();
-                    $query= $pdo ->prepare("select count(sujet)as nombre,sujet from blog GROUP by sujet");
-
-                    $query->execute();
-                     $stat = $query->fetchAll();
-
-                    ?>
+																	<span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
+													</div>
 
 
-                    <script>
-
-                var pieData = [
-                                    <?php
-
-                                    foreach($stat as $count) {
-
-
-                                        echo "{value:".$count['nombre'].",";
-                                        echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
-                                        echo "label: '",$count['sujet'], "'},";
-
-
-
-                                    }
-                                            ?>
-
-
-
-                  ];
-
-
-              new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
-
-              </script>
-
-                </div>
-
-                <!--//final stat animal-->
-
-
-
+													</form>
+											</div>
+									</div>
+									</section>
+                <!--//grid-->
 
                 <!-- script-for sticky-nav -->
                 <script>
@@ -526,13 +362,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </script>
                 <!-- /script-for sticky-nav -->
                 <!--inner block start here-->
-
                 <div class="inner-block">
 
                 </div>
                 <!--inner block end here-->
                 <!--copy rights start here-->
-
+                <div class="copyrights">
+                    <p>© 2016 Pooled . All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+                </div>
                 <!--COPY rights end here-->
             </div>
         </div>
@@ -550,17 +387,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a></li>
 
 
-                        <li id="menu-academico"><a href="gestion_plantes.php"><i class="fa fa-envelope nav_icon"></i><span>Gestion</span>
-                                <div class="clearfix"></div>
-                            </a>
-                            <ul id="menu-academico-sub">
-                                <li><a href="gestion_plantes.php">gestion des plantes</a></li>
-                                <li><a href="animaux.php">gestion des animaux</a></li>
-                                <li><a href="gestion_produits.php">gestion des produits</a></li>
-                                <li><a href="gestion_blog.php">gestion des blogs</a></li>
+                    <li id="menu-academico"><a href="inbox.html"><i class="fa fa-envelope nav_icon"></i><span>Inbox</span>
+                            <div class="clearfix"></div>
+                        </a>
+												<ul id="menu-academico-sub">
+														<li><a href="gestion_plantes.php">gestion des plantes</a></li>
+														<li><a href="animaux.php">gestion des animaux</a></li>
+														<li><a href="gestion_produits.php">gestion des produits</a></li>
+														<li><a href="gestion_blog.php">gestion des blogs</a></li>
 
-                            </ul>
-                        </li>
+												</ul></li>
                     <li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Gallery</span>
                             <div class="clearfix"></div>
                         </a></li>
@@ -644,7 +480,3 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     <!-- /Bootstrap Core JavaScript -->
-
-</body>
-
-</html>

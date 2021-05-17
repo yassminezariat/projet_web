@@ -1,35 +1,57 @@
-
 <?php
-include_once "..\Model\blogm.php";
-include_once "..\controller\blogC.php";
+session_start();
 
-$id = $_GET['id'];
+$_SESSION['id']=1;
 
-$blogC = new blogC();
-$pdo=config::getConnexion();
-$query= $pdo ->prepare("select * from blog where id= '$id'");
+include_once '../Model/avis.php';
 
-$query->execute();
- $result = $query->fetchAll();
-if(isset($_POST['cancel']))
-{ header("location:gestion_blog.php");}
 
-if (isset($_POST["titre"])&& isset($_POST["sujet"]) && isset($_POST["article"])&& isset($_POST["image"]))
-    {//{if (empty($_POST["nom"])&& empty($_POST["prenom"]) && empty($_POST["dateNais"]) && empty($_POST["email"]) && empty($_POST["tel"]) && empty($_POST["adresse"]) && empty($_POST["login"]) && empty($_POST["pass"])) {
 
-    $blog = new blog(
-        $_POST['titre'],
-        $_POST['sujet'],
-        $_POST['article'],
-        (string)$_POST['image']
 
-    );
-    $blogC->modifierblog($_POST['titre'],$_POST['sujet'],  $_POST['article'],(string)$_POST['image'],$id);
+include_once '../Controller/avisC.php';
+include_once '../Model/reclamations.php';
+include_once '../Controller/reclamationC.php';
+
+$error = "";
+$success = 0;
+// create user
+$avis= null;
+
+// create an instance of the controller
+$avisC = new avisC();
+$liste=$avisC->afficheravis();
+
+if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_avis"]))
+{
+
+  $avis = new Avis($_POST['description'],(int)$_POST['note'],(int)$_SESSION['id'],(string)$_POST["type_avis"]);
+
+    $avisC->ajouteravis($avis);
     $success = 1;
-    header("location: gestion_blog.php");
 
-//}
+    header("location:gestion_avis.php");
+
 }
+
+//reclamation
+
+$reclamations= null;
+// create an instance of the controller
+
+$reclamationsC = new reclamationsC();
+
+$liste2=$reclamationsC->afficherreclamation();
+
+if (isset($_POST["type_reclamation"])&& isset($_POST["description_reclamation"]))
+     {
+
+    $reclamations = new reclamations((string)$_POST['type_reclamation'],(string)$_POST['description_reclamation'],(int)$_SESSION['id']);
+    $reclamationsC->ajouterreclamation($reclamations);
+
+    header("location:gestion_avis.php");
+  }
+
+
 
 
 ?>
@@ -40,12 +62,9 @@ if (isset($_POST["titre"])&& isset($_POST["sujet"]) && isset($_POST["article"])&
     <title>Pooled Admin Panel Category Flat Bootstrap Responsive Web Template | Input :: w3layouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
     <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript">
-
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
@@ -55,71 +74,43 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         }
     </script>
     <style>
-#customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
+        h2 {text-align: center;}
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            color: #a40212;
+            font-family: monospace;
+            font-size: 25px;
+            text-align: left;
+        }
 
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
+        th {
+            background-color: #25fde9;
+            color: white;
+        }
 
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #4CAF50;
-  color: white;
-}
-
-#customers th.headerSortUp{
-   background-image:url("../images/up.png") ;
-   background-color: #3399FF;
-   background-repeat:no-repeat;
-   background-position: center right;
-
-
- }
- #customers th.headerSortDown{
-   background-image:url("../images/down.png") ;
-   background-color: #3399FF;
-
-   background-repeat:no-repeat;
-   background-position: center right;
-
-
- }
-
-</style>
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+    </style>
     <!-- Bootstrap Core CSS -->
-    <link href="..\css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+    <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <!-- Custom CSS -->
-    <link href="..\css/style.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="css/morris.css" type="text/css" />
     <!-- Graph CSS -->
-    <link href="..\css/font-awesome.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- //jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <!-- lined-icons -->
-    <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
+    <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
-    <script src="..\js/Chart.js"></script>
-    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-    <script src="..\sort.js"></script>
-
 </head>
 
 <body>
-    <script src="..\contole_de_saisie.js"></script>
     <div class="page-container">
         <!--/content-inner-->
         <div class="left-content">
@@ -309,202 +300,271 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="clearfix"> </div>
                 </div>
                 <!--heder end here-->
+
+
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Gestion des animaux</li>
+                    <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Gestion des avis et des reclamations</li>
                 </ol>
-                <!--ajout d'un animal-->
-              <section id="ajout">
-                <div class="grid-form">
-                    <div class="grid-form1">
-                        <h2 id="forms-example" class="">Ajouter un animal</h2>
-                        <?php foreach($result as $rows) {?>
-                        <form action="" method="POST" onSubmit="return controledesaisie()">
+                <!--grid-->
+                <section id="ajout">
+                   <div class="grid-form">
+                       <div class="grid-form1">
+                         <center>
+                           <h2 id="forms-example" class=""> consulter la liste des avis</h2>
+                         </center>
+                         <br></br>
 
-                            <div id="div_espece" class="form-group">
-                                <label for="exampleInputPassword1">Titre</label>
-                                <input type="text" class="form-control1" name="titre" id="titre" value="<?php echo $rows['titre'] ?>" placeholder="Titre">
-                                <div  role="alert" id="err_espece" ></div>
-                            </div>
-                            <div id="div_espece" class="form-group">
-                                <label for="exampleInputPassword1">Sujet</label>
-                                <input type="text" class="form-control1" name="sujet" value="<?php echo $rows['sujet'] ?>" id="sujet" placeholder="Sujet">
-                                <div  role="alert" id="err_espece" ></div>
-                            </div>
-                            <div id="div_date_naissance" class="form-group">
-                                <label for="exampleInputPassword1">Article</label>
-                                <textarea class="form-control1" name="article" id="article"  name="trip-start"> <?php echo $rows['article'] ?>
-                                </textarea>
-                                <div  role="alert" id="err_date_naissance" ></div>
-                                <script src="..\ckeditor\ckeditor.js"></script>
-                                <script > CKEDITOR.replace('article');</script>
-                            </div>
-                            <div id="div_image" class="form-group">
-                                <label for="exampleInputFile">Image</label>
-                                <input type="file" class="form-control1" name="image" id="image">
-                                <div  role="alert" id="err_image" ></div>
-                            </div>
+                         <section  id="affichage">
+                                       <div class="grid-form1">
 
-                            <?php } ?>
-
-
-                            <div class="panel-footer">
-                                <div class="row">
-                                    <div class="col-sm-8 col-sm-offset-2">
-                                        <input class="btn-primary btn" type="submit" value="Submit">
-                                        <button class="btn-default btn" >Cancel</button>
-                                        <button class="btn-inverse btn">Reset</button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!----->
-
-                        <div class="bs-example" data-example-id="form-validation-states-with-icons">
-                            <form>
-
-
-                                <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
-                        </div>
-
-
-                        </form>
-                    </div>
-                </div>
-                </section>
-                <!--//final ajout animal-->
-
-                <script>
-
-                $(document).ready(function() {
-                  $('#customers').tablesorter();
-
-                });
+                                        <br></br>
+                                        <br></br>
+                                        <form action="trierAvis.php" method="get" >
+                                        trier par: <select name="column">
+                                                 <option value="note">note</option>
+                                                 <option value="nom">nom</option>
+                                                 <option value="prenom">prenom</option>
+                                                  </select><br>
+                                                  <input type="submit" name="button">
+                                        </form>
 
 
 
-                </script>
 
-                <!--affichage animal-->
+<br></br>
+<br></br>
 
-                <section  id="affichage">
-                    <div class="agile-tables" id="affichagePDF">
-                    <div class="w3l-table-info">
-                        <h2 id="forms-example" class="">La liste des animaux</h2>
-                        <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export as PDF</button>
-                        <input type="text" name="search_animal" id="search_animal" class="form-control" placeholder="Rercher"/>
-
-                    <table id ="customers">
-                      <thead class ="thead-inverse">
-                        <tr>
-                            <th>Id   </th>
-                            <th>Titre       </th>
-                            <th>Sujet</th>
-                            <th>Article</th>
-                            <th>Image</th>
-                            <th>Modifier</th>
-                            <th>Supprimer</th>
-                          </thead>
-
-                        </tr>
-
-                        <?php $blogC = new blogC();
-                            $blogC->afficherblog();
-                        ?>
-                    </div>
-                    </div>
-
-                </section>
-                <script>
-                function PPDDFF() {
-                  const element = document.getElementById("customers");
-                  html2pdf()
-                  .from(element)
-                  .save();
+          <?php
+          $search = $_GET['search'];
+   $column = $_GET['column'];
+   if(isset($_GET['search']) && isset($_GET['column']) ){
+     echo("<table border='1' align='center'><tr>");
+          echo("<tr>");
+              echo("<th>");
+              echo ("type de l'avis");
+               echo ("</th>");
+               echo("<th>");
+               echo ("Note");
+                echo ("</th>");
+                echo("<th>");
+                echo ("Avis");
+                 echo ("</th>");
+                 echo("<th>");
+                 echo ("Date de l'envoi de l'avis");
+                  echo ("</th>");
+                  echo("<th>");
+                  echo ("Le client");
+                   echo ("</th>");
+          echo("</tr>");
+        ?>  <?php
+        $avisC=new avisC();
+           $pdo=config::getConnexion();
+               $query= $pdo ->prepare("SELECT avis.*,utilisateur.nom,utilisateur.prenom FROM avis inner join utilisateur on avis.id_user=utilisateur.id where $column like '%$search%'");
+               $query->execute();
+               $result = $query->fetchAll();
 
 
-                }
-                </script>
+
+        ?>
+        <?php
+        foreach($result as $rows)
+    {
+        echo (" <td>");
+        echo $rows['type_avis'];
+        echo ("</td>");
+        echo ("<td>");
+        echo $rows['note'];
+        echo ("</td>");
+        echo ("<td>");
+        echo $rows['description'];
+        echo ("</td>");
+        echo ("<td>");
+        echo $rows['date_avis'];
+        echo ("</td>");
+        echo ("<td>");
+        echo $rows['nom'];
+        echo $rows['prenom'];
+        echo ("</td>");
+
+    echo("</tr>");
+}
+?>
+<?php
+echo("</table>");}
+else
+{echo("can't find the title");}
+?>
 
 
 
 
 
-                <script>
-                  $(document).ready(function() {
-                    $('#search_animal').keyup(function() {
-                      search_table($(this).val());
-                    });
-
-                    function search_table(value) {
-                      $('#customers tr').each(function() {
-                        var found = 'false';
-                        $(this).each(function() {
-                          if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-                            found = 'true';
-                          }
-                        });
-                        if (found == 'true') {
-                          $(this).show();
-                        } else {
-                          $(this).hide();
-                        }
-                      });
-                    }
-                  });
-                </script>
-                <!--//final affichage animal-->
-
-                <!-- stat des animaux-->
-                <div class="charts">
-                    <div class="col-md-4 w3l-char">
-            <div class="charts-grids widget"  id="pdf">
-              <h4 class="title">Stat des sujets</h4>
-              <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export as PDF</button>
-              <canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
-            </div>
-          </div>
-
-                    <?php
-                    $pdo=config::getConnexion();
-                    $query= $pdo ->prepare("select count(sujet)as nombre,sujet from blog GROUP by sujet");
-
-                    $query->execute();
-                     $stat = $query->fetchAll();
-
-                    ?>
-
-
-                    <script>
-
-                var pieData = [
-                                    <?php
-
-                                    foreach($stat as $count) {
-
-
-                                        echo "{value:".$count['nombre'].",";
-                                        echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";
-                                        echo "label: '",$count['sujet'], "'},";
 
 
 
-                                    }
-                                            ?>
 
 
 
-                  ];
+                                         </table>
+
+                                       </div>
+                                       <!--retour a la page d'acc-->
+
+                                       <form action="gestion_avis.php" method="" >
+
+                                                 <input type="submit" name="retour">
+                                       </form>
+                                       <!--//retour a la page d'acc-->
 
 
-              new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
+                             <!--statistique sur les avis-->
 
-              </script>
+                                       <section>
+                                         <script src="js/Chart.js"></script>
+                                         <div class="charts-grids widget">
+                                                       <h4 class="title"> statistique sur les types des avis </h4>
+                                                       <canvas id="pie" width="488" height="438" style="width: 488px; height: 438px;"> </canvas>
+                                                     </div>
+                                                     <?php
+                                                                                                       $pdo=config::getConnexion();
+                                                                                                           $query= $pdo ->prepare("SELECT COUNT(type_avis)AS nombre,type_avis FROM avis GROUP by type_avis");
+                                                                                                           $query->execute();
+                                                                                                           $result = $query->fetchAll();
+                                                                                                       ?>
+                                                    <script>
 
-                </div>
+             var pieData = [
+                  <?php
+                   foreach ($result as $row) {
+                     // code...
+                     echo "{value:".$row['nombre'].",";
+                                        echo "color:'rgb(",rand (0,255 ),",",rand (0,255 ), ",",rand (0,255 ),")',";echo "label: '",$row['type_avis'], "'},";
 
-                <!--//final stat animal-->
+} ?>
+
+               ] ;
+
+
+           new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
+
+           </script>
+
+                                       </section>
+
+                                                       <!--//stat-->
+
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+
+                                   </section>
+
+
+
+                                   <section  id="affichagere">
+                                     <h2 id="forms-example" class=""> consulter la liste des reclamations</h2>
+                                                 <div class="grid-form1">
+                                                   <form action="rechercherreclamation.php" method="get">
+                                                   chercher par <input type="text" name="search"><br>
+
+                                                   choix: <select name="column">
+                                                            <option value="type_reclamation">type_reclamation</option>
+
+                                                            <option value="nom">nom</option>
+                                                            <option value="prenom">prenom</option>
+                                                             </select><br>
+                                                   <input type="submit" name="button">
+                                                   </form>
+
+                                                   <form action="trierreclamation.php" method="get" >
+                                                   trier par: <select name="column">
+
+                                                            <option value="nom">nom</option>
+                                                            <option value="prenom">prenom</option>
+                                                             </select><br>
+                                                             <input type="submit" name="button" value="trier">
+                                                   </form>
+
+
+
+
+                                                 <table>
+                                                     <tr>
+                                                         <th>type_reclamation</th>
+                                                         <th>date_reclamation</th>
+                                                         <th>description_reclamation</th>
+                                                         <th>client</th>
+
+                                                     </tr>
+                                                     <?php
+                                                     foreach ($liste2 as $row){
+                                                       ?>
+                                                         <tr>
+                                                           <td><?php echo $row['type_reclamation'];  ?></td>
+                                                           <td><?php echo $row['date_reclamation'];  ?></td>
+                                                           <td><?php echo $row['description_reclamation'];  ?></td>
+                                                           <td><?php echo $row['nom'];  ?> <?php echo $row['prenom'];  ?></td>
+
+
+
+
+                                                         </tr>
+                                                     <?php
+                                                   }
+                                                   ?>
+                                                   </table>
+                                                 </div>
+
+
+                           <form action="" method="POST" class="form">
+                             </div>
+                               <div class="form-group">
+   <h3 for="exampleInputPassword1"> </h3>
+
+
+                                 <br></br>
+
+                                 <div class="form-group">
+
+                                 </div>
+
+                               <div class="panel-footer">
+                                   <div class="row">
+                                       <div class="col-sm-8 col-sm-offset-2">
+                                           <input class="btn-primary btn" type="submit" value="            ">
+                                       </div>
+                                   </div>
+                               </div>
+                           </form>
+                       </div>
+                       <!----->
+
+                           <div class="bs-example" data-example-id="form-validation-states-with-icons">
+                               <form>
+
+
+                                   <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
+                           </div>
+
+
+                           </form>
+                       </div>
+                   </div>
+
+
+
+
+                 </section>
+
+
+                <!--//grid-->
+                <br></br>
+
+
 
 
 
@@ -526,13 +586,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </script>
                 <!-- /script-for sticky-nav -->
                 <!--inner block start here-->
-
                 <div class="inner-block">
 
                 </div>
                 <!--inner block end here-->
                 <!--copy rights start here-->
-
+                <div class="copyrights">
+                    <p>© 2016 Pooled . All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+                </div>
                 <!--COPY rights end here-->
             </div>
         </div>
@@ -550,17 +611,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a></li>
 
 
-                        <li id="menu-academico"><a href="gestion_plantes.php"><i class="fa fa-envelope nav_icon"></i><span>Gestion</span>
-                                <div class="clearfix"></div>
-                            </a>
-                            <ul id="menu-academico-sub">
-                                <li><a href="gestion_plantes.php">gestion des plantes</a></li>
-                                <li><a href="animaux.php">gestion des animaux</a></li>
-                                <li><a href="gestion_produits.php">gestion des produits</a></li>
-                                <li><a href="gestion_blog.php">gestion des blogs</a></li>
-
-                            </ul>
-                        </li>
+                    <li id="menu-academico"><a href="gestion_avis.php"><i class="fa fa-envelope nav_icon"></i><span>Gestion des avis et des reclamations</span>
+                            <div class="clearfix"></div>
+                        </a></li>
                     <li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Gallery</span>
                             <div class="clearfix"></div>
                         </a></li>
