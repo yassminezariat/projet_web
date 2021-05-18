@@ -941,6 +941,9 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                             </div>
 
                         </form>
+
+
+
                         <script>
                         function Verification() {
                           var mess = document.getElementById('description').value;
@@ -957,6 +960,8 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                         }
                         }
                         </script>
+
+
                         <br></br>
                         <section  id="affichage">
                                       <div class="grid-form1">

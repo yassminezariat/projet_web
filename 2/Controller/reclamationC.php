@@ -5,7 +5,7 @@ class reclamationC{
 
 	public function afficherreclamation(){
 
-		$sql="SELECT reclamations.*,utilisateur.nom,utilisateur.prenom FROM reclamations inner join utilisateur on reclamations.id_user=utilisateur.id";
+		$sql="SELECT reclamations.*,utilisateur.nom,utilisateur.prenom FROM reclamations inner join utilisateur on reclamations.id_user=utilisateur.id where id_user='3'";
 		try{
 				$pdo=config::getConnexion();
 			 	$result= $pdo->query($sql);
@@ -17,6 +17,19 @@ class reclamationC{
 
 }
 
+public function afficherreclamationF(){
+
+	$sql="SELECT reclamations.*,utilisateur.nom,utilisateur.prenom FROM reclamations inner join utilisateur on reclamations.id_user=utilisateur.id ";
+	try{
+			$pdo=config::getConnexion();
+			$result= $pdo->query($sql);
+			return $result;
+		}
+		catch(PDOException $e){
+				$e->getMessage();
+		}
+
+}
 public function ajouterreclamation($reclamations){
 	$sql="insert into reclamations(type_reclamation,date_reclamation,description_reclamation,id_user) values(:type_reclamation,NOW(),:description_reclamation, :id_user)";
 		            $db=config::getConnexion();

@@ -940,56 +940,7 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                         }
                         </script>
                         <br></br>
-                        <section  id="affichage">
-                                      <div class="grid-form1">
-                                        <center>
-                                          <h3  data-blast="color" style="color: rgb(229, 144, 42);">les avis des clients </h3>
 
-                                  </center>
-                                  <br></br>
-                                  <center>
-                                <table border="2" cellpading="10" width = "100%" >
-                                    <tr >
-                                  <td>
-
-                                      <table border="2" cellpading="10" width = "100%" >
-                                      <tr>
-                                        <th style="background-color: rgb(211, 184, 0) ; color: rgb(250, 250, 250);" >description</th>
-                                        <th style="background-color: rgb(211, 184, 0) ; color: rgb(250, 250, 250);" >note</th>
-                                        <th style="background-color: rgb(211, 184, 0) ; color: rgb(250, 250, 250);" >date_avis</th>
-                                        <th style="background-color: rgb(211, 184, 0) ; color: rgb(250, 250, 250);" >client</th>
-                                        <th style="background-color: rgb(211, 184, 0) ; color: rgb(250, 250, 250);" >le type de l'avis</th>
-                                          </tr>
-                                        </td>
-                                          <?php
-                                          foreach ($liste as $row){
-                                            ?>
-                                            <tr>
-                                            <td>
-                                              <tr>
-                                                <td><?php echo $row['description'];  ?></td>
-                                                <td><?php echo $row['note'];  ?></td>
-                                                <td><?php echo $row['date_avis'];  ?></td>
-                                                <td><?php echo $row['nom'];  ?> <?php echo $row['prenom'];  ?></td>
-                                                <td><?php echo $row['type_avis'];  ?></td>
-                                                <td><a href="supprimerAvis.php?id=<?php echo $row['id_avis'];  ?>">Supprimer</a></td>
-                                              </tr>
-                                          </td>
-                                        </tr>
-                                          <?php
-                                        }
-                                        ?>
-
-                                        </table>
-                                      </td>
-                                    </tr>
-
-                                  </table>
-
-                                      </center>
-                                      </div>
-
-                                  </section>
                     </div>
 
                 </div>

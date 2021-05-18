@@ -5,7 +5,7 @@ class avisC{
 
 	public function afficheravis(){
 
-		$sql="SELECT avis.*,utilisateur.nom,utilisateur.prenom FROM avis inner join utilisateur on avis.id_user=utilisateur.id";
+		$sql="SELECT avis.*,utilisateur.nom,utilisateur.prenom FROM avis inner join utilisateur on avis.id_user=utilisateur.id where id_user='3'";
 		try{
 				$pdo=config::getConnexion();
 			 	$result= $pdo->query($sql);
@@ -14,6 +14,19 @@ class avisC{
 			catch(PDOException $e){
 					$e->getMessage();
 			}
+
+}
+public function afficheravisF(){
+
+	$sql="SELECT avis.*,utilisateur.nom,utilisateur.prenom FROM avis inner join utilisateur on avis.id_user=utilisateur.id";
+	try{
+			$pdo=config::getConnexion();
+			$result= $pdo->query($sql);
+			return $result;
+		}
+		catch(PDOException $e){
+				$e->getMessage();
+		}
 
 }
 

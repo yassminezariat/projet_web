@@ -14,16 +14,9 @@ include_once '../Controller/reclamationC.php';
 $avis= null;
 // create an instance of the controller
 $avisC = new avisC();
-$liste=$avisC->afficheravis();
+$liste=$avisC->afficheravisF();
 
-if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_avis"]))
-     {
 
-    $avis = new Avis($_POST['description'],(int)$_POST['note'],(int)$_SESSION['id'],(string)$_POST["type_avis"]);
-    $avisC->ajouteravis($avis);
-
-    header("location:gestion_avis_FCL.php");
-  }
   //reclamation
 
 
@@ -33,16 +26,9 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
   // create an instance of the controller
   $reclamationC = new reclamationC();
 
-  $liste2=$reclamationC->afficherreclamation();
+  $liste2=$reclamationC->afficherreclamationF();
 
-  if (isset($_POST["type_reclamation"])&& isset($_POST["description_reclamation"]))
-       {
 
-      $reclamations = new reclamations((string)$_POST['type_reclamation'],(string)$_POST['description_reclamation'],(int)$_SESSION['id']);
-      $reclamationC->ajouterreclamation($reclamations);
-
-      header("location:gestion_reclamation_FCL.php");
-    }
 ?>
 
 <!DOCTYPE html>
@@ -861,7 +847,7 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
             <p class="text-white text-sm-center ">ECRIVEZ-NOUS</p>
             <div class="d-sm-flex justify-content-center">
                 <a href="#" role="button" data-toggle="modal" data-target="#exampleModal" class="btn light-bg mt-sm-4 mt-3 ml-3 w3_pvt-link-bnr">
-                    consulter les reclamations</a>
+                     les reclamations</a>
                 <a href="#" role="button" data-toggle="modal" data-target="#exampleModal1" class="btn light-bg mt-sm-4 mt-3 ml-3 ">
                   CLIQUEZ ICI</a>
             </div>
@@ -906,66 +892,12 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
                 </div>
 
                   <div class="col-lg-7">
-                      <h5 class="cont-form" data-blast="color">Notice form</h5>
+                      <h5 class="cont-form" data-blast="color">Les avis</h5>
                       <div class="contact-form-wthreelayouts">
-                          <form action="#" method="post" class="register-wthree" onSubmit="return Verification()">
-                            <div>
-                              <h3 for="exampleInputPassword1">Le type de votre avis: </3>
-                                <br></br>
-                              <select name="type_avis">
-                                <option value="un avis favorable">un avis favorable </option>
-                                <option value="un avis defavorable">un avis defavorable</option>
-                              </select>
 
-                            </div>
-                            <br></br>
-                              <div class="form-group">
-                                <h3 for="exampleInputPassword1">La note </3>
-                                <select name="note">
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                </select>
-                              </div>
-                              <br></br>
-                              <div class="form-group">
-                                <h3  for="exampleInputPassword1">Votre avis:</h3>
-                                <br></br>
-                                  <input rowspan="2"  size="60"  type="text" name="description"  id="description" > </input>
-                              </div>
-
-
-                              <div class="form-group mb-0">
-                                  <button type="submit" class="btn btn-w3layouts btn-block  bg-theme text-white w-100 font-weight-bold text-uppercase" data-blast="bgColor" >Send</button>
-                              </div>
-
-                          </form>
-                          <script>
-                          function Verification() {
-                            var mess = document.getElementById('description').value;
-                            if(mess==''){
-                          alert('Vous devez ecrire un message !');
-                          document.getElementById('description').style.backgroundColor="red";
-                          document.getElementById('description').style.color="#FFF";
-
-                          // Permet de bloquer l'envoi du formulaire
-                          return false;
-                          }
-                          else{
-                          document.getElementById('description').style.backgroundColor="#9C6";
-                          }
-                          }
-                          </script>
-                          <br></br>
                           <section  id="affichage">
                                         <div class="grid-form1">
-                                          <center>
-                                            <h3  data-blast="color" style="color: rgb(229, 144, 42);"> Mes avis </h3>
 
-                                    </center>
-                                    <br></br>
                                     <center>
                                   <table border="2" cellpading="10" width = "100%" >
                                       <tr >
@@ -1130,8 +1062,7 @@ if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_av
 
                             </div>
                         </div>
-                            <a href="#" data-toggle="modal" data-target="#exampleModal1" class="font-weight-bold" data-blast="color">
-                                ajouter une reclamation</a>
+
 
                         </p>
                     </form>

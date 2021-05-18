@@ -108,6 +108,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- lined-icons -->
     <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
+
 </head>
 
 <body>
@@ -230,7 +231,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                               $pdo=config::getConnexion();
                                               $query= $pdo ->prepare("SELECT COUNT(type_reclamation) FROM reclamations ");
                                               $count = $query->execute();
-                                              
+
                                               ?>
 
 

@@ -299,7 +299,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                   <option value="4">4</option>
                                   <option value="5">5</option>
                                 </select>
-                                
+
                               </div>
                               <div class="form-group">
                                   <label for="exampleInputPassword1">Message</label>
