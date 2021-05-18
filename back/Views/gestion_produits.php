@@ -386,7 +386,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <section  id="affichage">
                     <div class="agile-tables">
                     <div class="w3l-table-info">
-                        <h2 id="forms-example" class="">La liste des plantes</h2>
+                        <h2 id="forms-example" class="">La liste des produits</h2>
                         <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export to PDF</button>
 
                           <input type="text" name="search_produit" id="search_produit" class="form-control" placeholder="Rercher"/>
@@ -602,10 +602,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="clearfix"></div>
                             </a>
                             <ul id="menu-academico-sub">
-                                <li><a href="gestion_plantes.php">gestion des plantes</a></li>
-                                <li><a href="animaux.php">gestion des animaux</a></li>
-                                <li><a href="gestion_produits.php">gestion des produits</a></li>
-                                <li><a href="gestion_blog.php">gestion des blogs</a></li>
+                              <li><a href="gestion_plantes.php">gestion des plantes</a></li>
+                              <li><a href="animaux.php">gestion des animaux</a></li>
+                              <li><a href="gestion_produits.php">gestion des produits</a></li>
+                              <li><a href="gestion_blog.php">gestion des blogs</a></li>
+                              <li><a href="gestion_avis.php">gestion des avis et des reclamations</a></li>
+                              <li><a href="gestion_event.php">gestion des evennements</a></li>
+                              <li><a href="sponsors.php">gestion des sponsors</a></li>
+                              <li><a href="Afficherclient.php">gestion des clients</a></li>
+                              <li><a href="AfficherEmpl.php">gestion des employes</a></li>
+
+
 
 
                             </ul>

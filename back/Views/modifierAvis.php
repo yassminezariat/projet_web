@@ -299,7 +299,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                   <option value="4">4</option>
                                   <option value="5">5</option>
                                 </select>
-                                
+
                               </div>
                               <div class="form-group">
                                   <label for="exampleInputPassword1">Message</label>
@@ -410,7 +410,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                     <li id="menu-academico"><a href="animaux.php"><i class="fa fa-envelope nav_icon"></i><span>Gestion des avis</span>
                             <div class="clearfix"></div>
-                        </a></li>
+                        </a>
+                        <ul id="menu-academico-sub">
+                                  <li><a href="gestion_plantes.php">gestion des plantes</a></li>
+                                  <li><a href="animaux.php">gestion des animaux</a></li>
+                                  <li><a href="gestion_produits.php">gestion des produits</a></li>
+                                  <li><a href="gestion_blog.php">gestion des blogs</a></li>
+                                  <li><a href="gestion_avis.php">gestion des avis et des reclamations</a></li>
+                                  <li><a href="gestion_event.php">gestion des evennements</a></li>
+                                  <li><a href="sponsors.php">gestion des sponsors</a></li>
+                                  <li><a href="Afficherclient.php">gestion des clients</a></li>
+                                  <li><a href="AfficherEmpl.php">gestion des employes</a></li>
+
+
+
+
+                              </ul></li>
                     <li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Gallery</span>
                             <div class="clearfix"></div>
                         </a></li>

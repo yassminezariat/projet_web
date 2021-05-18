@@ -557,10 +557,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="clearfix"></div>
                             </a>
                             <ul id="menu-academico-sub">
-                                <li><a href="gestion_plantes.php">gestion des plantes</a></li>
-                                <li><a href="animaux.php">gestion des animaux</a></li>
-                                <li><a href="gestion_produits.php">gestion des produits</a></li>
-                                <li><a href="gestion_blog.php">gestion des blogs</a></li>
+                              <li><a href="gestion_plantes.php">gestion des plantes</a></li>
+                              <li><a href="animaux.php">gestion des animaux</a></li>
+                              <li><a href="gestion_produits.php">gestion des produits</a></li>
+                              <li><a href="gestion_blog.php">gestion des blogs</a></li>
+                              <li><a href="gestion_avis.php">gestion des avis et des reclamations</a></li>
+                              <li><a href="gestion_event.php">gestion des evennements</a></li>
+                              <li><a href="sponsors.php">gestion des sponsors</a></li>
+                              <li><a href="Afficherclient.php">gestion des clients</a></li>
+                              <li><a href="AfficherEmpl.php">gestion des employes</a></li>
+
+
+
 
 
 

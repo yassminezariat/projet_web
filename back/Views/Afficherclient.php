@@ -227,7 +227,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<section  id="affichage">
 				<div class="agile-tables" id="affichagePDF">
 				<div class="w3l-table-info">
-						<h2 id="forms-example" class="">La liste des animaux</h2>
+						<h2 id="forms-example" class="">La liste des clients</h2>
 
 						<input type="text" name="search" id="search" class="form-control" placeholder="Rercher"/>
 
@@ -377,12 +377,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <ul id="menu">
                     <li><a href="index.html"><i class="fa fa-tachometer"></i> <span>Dashboard</span>
                             <div class="clearfix"></div>
-                        </a></li>
+                        </a>
+											</li>
 
 
-                    <li id="menu-academico"><a href="inbox.html"><i class="fa fa-envelope nav_icon"></i><span>Inbox</span>
+                    <li id="menu-academico"><a href="inbox.html"><i class="fa fa-envelope nav_icon"></i><span>Gestion</span>
                             <div class="clearfix"></div>
-                        </a></li>
+                        </a>
+												<ul id="menu-academico-sub">
+                                <li><a href="gestion_plantes.php">gestion des plantes</a></li>
+                                <li><a href="animaux.php">gestion des animaux</a></li>
+                                <li><a href="gestion_produits.php">gestion des produits</a></li>
+                                <li><a href="gestion_blog.php">gestion des blogs</a></li>
+                                <li><a href="gestion_avis.php">gestion des avis et des reclamations</a></li>
+                                <li><a href="gestion_event.php">gestion des evennements</a></li>
+                                <li><a href="sponsors.php">gestion des sponsors</a></li>
+                                <li><a href="Afficherclient.php">gestion des clients</a></li>
+                                <li><a href="AfficherEmpl.php">gestion des employes</a></li>
+
+
+
+
+                            </ul></li>
                     <li><a href="gallery.html"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Gallery</span>
                             <div class="clearfix"></div>
                         </a></li>

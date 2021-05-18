@@ -315,7 +315,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <section id="ajout">
                   <div class="grid-form">
                       <div class="grid-form1">
-                          <h2 id="forms-example" class="">Modifier plante</h2>
+                          <h2 id="forms-example" class="">Modifier produits</h2>
                             <?php foreach($result as $rows) {?>
                               <form action="" method="POST" onSubmit="return controlersaisie();">
 
@@ -391,7 +391,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="w3l-table-info">
                       <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export to PDF</button>
 
-                        <h2 id="forms-example" class="">La liste des plantes</h2>
+                        <h2 id="forms-example" class="">La liste des produits</h2>
                           <input type="text" name="search_produit" id="search_produit" class="form-control" placeholder="Rercher"/>
                     <table id ="customers">
                       <thead class ="thead-inverse">
@@ -608,6 +608,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <li><a href="animaux.php">gestion des animaux</a></li>
                                 <li><a href="gestion_produits.php">gestion des produits</a></li>
                                 <li><a href="gestion_blog.php">gestion des blogs</a></li>
+                                <li><a href="gestion_avis.php">gestion des avis et des reclamations</a></li>
+                                <li><a href="gestion_event.php">gestion des evennements</a></li>
+                                <li><a href="sponsors.php">gestion des sponsors</a></li>
+                                <li><a href="Afficherclient.php">gestion des clients</a></li>
+                                <li><a href="AfficherEmpl.php">gestion des employes</a></li>
+
+
+
 
                             </ul>
                         </li>

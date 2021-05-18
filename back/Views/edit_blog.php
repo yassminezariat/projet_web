@@ -310,13 +310,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <!--heder end here-->
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Gestion des animaux</li>
+                    <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Gestion des Blogs</li>
                 </ol>
                 <!--ajout d'un animal-->
               <section id="ajout">
                 <div class="grid-form">
                     <div class="grid-form1">
-                        <h2 id="forms-example" class="">Ajouter un animal</h2>
+                        <h2 id="forms-example" class="">Ajouter un blog</h2>
                         <?php foreach($result as $rows) {?>
                         <form action="" method="POST" onSubmit="return controledesaisie()">
 
@@ -391,7 +391,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <section  id="affichage">
                     <div class="agile-tables" id="affichagePDF">
                     <div class="w3l-table-info">
-                        <h2 id="forms-example" class="">La liste des animaux</h2>
+                        <h2 id="forms-example" class="">La liste des blogs</h2>
                         <button onclick="PPDDFF()" class="btn btn-xs btn-primary btn-block"> Export as PDF</button>
                         <input type="text" name="search_animal" id="search_animal" class="form-control" placeholder="Rercher"/>
 
@@ -558,6 +558,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <li><a href="animaux.php">gestion des animaux</a></li>
                                 <li><a href="gestion_produits.php">gestion des produits</a></li>
                                 <li><a href="gestion_blog.php">gestion des blogs</a></li>
+                                <li><a href="gestion_avis.php">gestion des avis et des reclamations</a></li>
+                                <li><a href="gestion_event.php">gestion des evennements</a></li>
+                                <li><a href="sponsors.php">gestion des sponsors</a></li>
+                                <li><a href="Afficherclient.php">gestion des clients</a></li>
+                                <li><a href="AfficherEmpl.php">gestion des employes</a></li>
+
+
+
 
                             </ul>
                         </li>
