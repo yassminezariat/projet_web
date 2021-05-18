@@ -1,55 +1,33 @@
 <?php
-  include_once '../back/Model/Utilisateur.php';
-  include_once '../back/Controller/UtilisateurC.php';
+
   session_start();
-  $message = "";
-  $userC = new UtilisateurC();
-  if (
-      isset($_POST["login"]) &&
-      isset($_POST["pass"])
-  ) {
-      if (
-          !empty($_POST["login"]) &&
-          !empty($_POST["pass"])
-      ) {
 
+  include_once '../back/Controller/ClientC.php';
+  include_once '../back/Model/Client.php';
+$message="";
+$Client1C = new clientC();
 
-          $message = $userC->connexionUser($_POST["login"], $_POST["pass"]);
-          $_SESSION['e'] = $_POST["login"]; // on stocke dans le tableau une colonne ayant comme nom "e",
-          //  avec le login à l'intérieur
-          if ($message != 'le login ou le mot de passe est incorrect') {
+$ClientC = new ClientC();
 
+if (isset($_POST["email"]) &&
+    isset($_POST["password"])) {  if (!empty($_POST["email"]) && !empty($_POST["password"]))
+    {   $message=$ClientC->connexionUser($_POST["email"],$_POST["password"]);
+        $_SESSION['e'] = $_POST["email"];// on stocke dans le tableau une colonne ayant comme nom "e",
+        //  avec l'email à l'intérieur
 
+        if($message!='pseudo ou le mot de passe est incorrect') {
 
-            $to_email ='atunisiatour@gmail.com';
-            $subject = 'Connexion validée';
-            $message = 'Bonjour nous voudrons vous informez que vous etes bien connecté dans notre site TUNISIA TOUR';
-            $headers = 'atunisiatour@gmail.com';
-            try {
-                if (mail($to_email, $subject, $message, $headers)) {
-                    echo (' <script> alert("Nous vous avons envoyer un mail"); </script> ');
-                } else {
-                    echo ('<script> alert("Erreur du mail"); </script>');
-                }
-            } catch (Exception $e) {
-                echo 'Exception reçue : ',  $e->getMessage(), "\n";
-            }
-
-
-
-
-
-
-              header('Location:index.php');
-          } else {
-              $message = 'le login ou le mot de passe est incorrect';
-              echo ('<script> alert("Vos données sont incorrectes, Veuillez réessayer"); </script>');
-
-          }
-      } else
-          $message = "Missing information";
-  }
-
+            $user = $Client1C->recupererrole($_POST['email']);
+            if ($user['role'] == 'client') {
+                header('Location:index.php'); //client
+            }else
+                { header('Location:../back/');} //admin
+        }
+        else{
+            $message='pseudo ou le mot de passe est incorrect';
+        }}
+    else
+        $message = "Missing information";}
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -97,33 +75,31 @@
                   </button>
               </div>
               <div class="modal-body">
-                  <form action="#" method="post" class="p-sm-3">
+                  <form action="#" method="POST" class="p-sm-3">
                       <div class="form-group">
                           <label for="recipient-name" class="col-form-label">Username</label>
-                          <input type="text" class="form-control" placeholder="" name="login" id="login" required="">
+                          <input type="text" class="form-control" placeholder="email" name="email" id="email" required="">
                       </div>
                       <div class="form-group">
                           <label for="password" class="col-form-label">Password</label>
-                          <input type="password" class="form-control" placeholder="" name="pass" id="pass" required="">
+                          <input type="password" class="form-control" placeholder="password" name="password" id="password" required="">
                       </div>
                       <div class="right-w3l">
                           <input class="btn btn-primary btn-lg btn-block" type="submit" name="submit" value="Se Connecter" onClick="validation()">
                       </div>
                       <div class="row sub-w3l my-3">
                           <div class="col-sm-6 sub-w3_pvt">
-                              <input type="checkbox" id="brand1" value="">
+
                               <label for="brand1">
-                                  <span></span>Remember me?</label>
+                                Vous n'avez pas un compte ?
+                                <a href="inscreption.php">S'inscrire</a>
+
                           </div>
                           <div class="col-sm-6 forgot-w3l text-sm-right">
                               <a href="#" class="text-secondary">Forgot Password?</a>
                           </div>
                       </div>
-                      <p class="text-center dont-do modal-footer1">Don't have an account?
-                          <a href="#" data-toggle="modal" data-target="#exampleModal1" class="font-weight-bold" data-blast="color" style="color: rgb(179, 255, 0);">
-                              Register Now</a>
-
-                      </p>
+                      
                   </form>
               </div>
             </form>

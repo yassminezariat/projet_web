@@ -57,10 +57,12 @@ if (isset($_POST["etat_reclamation"])&& isset($_POST["reponse"]))
 <!DOCTYPE HTML>
 <html>
 
+
 <head>
     <title>Pooled Admin Panel Category Flat Bootstrap Responsive Web Template | Input :: w3layouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript">
@@ -113,6 +115,46 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
  }
+ #ici {
+   font-family: Arial, Helvetica, sans-serif;
+   border-collapse: collapse;
+   width: 100%;
+ }
+
+ #ici td, #customers th {
+   border: 1px solid #ddd;
+   padding: 8px;
+ }
+
+ #ici tr:nth-child(even){background-color: #f2f2f2;}
+
+ #ici tr:hover {background-color: #ddd;}
+
+ #ici th {
+   padding-top: 12px;
+   padding-bottom: 12px;
+   text-align: left;
+   background-color: #4CAF50;
+   color: white;
+ }
+
+ #ici th.headerSortUp{
+    background-image:url("../images/up.png") ;
+    background-color: #3399FF;
+    background-repeat:no-repeat;
+    background-position: center right;
+
+
+  }
+  #ici th.headerSortDown{
+    background-image:url("../images/down.png") ;
+    background-color: #3399FF;
+
+    background-repeat:no-repeat;
+    background-position: center right;
+
+
+  }
 
 </style>
     <!-- Bootstrap Core CSS -->
@@ -130,7 +172,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- lined-icons -->
     <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
+    <script src="..\js/Chart.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+    <script src="..\sort.js"></script>
+
 </head>
+
 
 <body>
     <div class="page-container">
@@ -359,12 +407,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="clearfix"> </div>
                 </div>
                 <!--heder end here-->
+                <script>
+
+                $(document).ready(function() {
+                  $('#customers 1').tablesorter();
+
+                });
+
+
+
+                </script>
 
 
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Gestion des avis et des reclamations</li>
                 </ol>
                 <!--grid-->
+                <script>
+
+                $(document).ready(function() {
+                  $('#customers').tablesorter();
+
+                });
+
+
+
+                </script>
                 <section id="ajout">
                    <div class="grid-form">
                        <div class="grid-form1">
@@ -373,42 +441,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                          </center>
                          <br></br>
 
-                         <section  id="affichage">
+
                                        <div class="grid-form1">
-                                         <form action="rechercheravis.php" method="get">
-                                         chercher par <input type="text" name="search"> <br>
 
-                                         choix: <select name="column">
- 	                                                <option value="type_avis">type_avis</option>
- 	                                                <option value="note">note</option>
-                                                  <option value="nom">nom</option>
-                                                  <option value="prenom">prenom</option>
- 	                                                 </select><br>
-                                         <input type="submit" name="button" value="rechercher">
-                                         </form>
-                                        <br></br>
-                                        <br></br>
-                                        <form action="trierAvis.php" method="get" >
-                                        trier par: <select name="column">
-                                                 <option value="note">note</option>
-                                                 <option value="nom">nom</option>
-                                                 <option value="prenom">prenom</option>
-                                                  </select><br>
-                                                  <input type="submit" name="button" value="trier">
-                                        </form>
-
-
-
-
-<br></br>
-<br></br>
+                                        <input type="text" name="search_avis" id="search_avis" class="form-control" placeholder="Rercher"/>
                                        <table id="customers">
+                                         <thead class ="thead-inverse">
                                            <tr>
                                                <th>description</th>
                                                <th>note</th>
                                                <th>date_avis</th>
                                                <th>client</th>
                                                <th>type_avis</th>
+                                               </thead>
                                            </tr>
                                            <?php
                                            foreach ($liste as $row){
@@ -430,6 +475,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                          ?>
                                          </table>
                                        </div>
+                                       <script>
+                                         $(document).ready(function() {
+                                           $('#search_avis').keyup(function() {
+                                             search_table($(this).val());
+                                           });
+
+                                           function search_table(value) {
+                                             $('#customers tr').each(function() {
+                                               var found = 'false';
+                                               $(this).each(function() {
+                                                 if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                                                   found = 'true';
+                                                 }
+                                               });
+                                               if (found == 'true') {
+                                                 $(this).show();
+                                               } else {
+                                                 $(this).hide();
+                                               }
+                                             });
+                                           }
+                                         });
+                                       </script>
 
                                        <!--stat sur les avis -->
 
@@ -493,37 +561,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                    <section  id="affichagere">
                                      <h2 id="forms-example" class=""> consulter la liste des reclamations</h2>
                                                  <div class="grid-form1">
-                                                   <form action="rechercherreclamation.php" method="get">
-                                                   chercher par <input type="text" name="search" ><br>
 
-                                                   choix: <select name="column">
-                                                            <option value="type_reclamation">type_reclamation</option>
 
-                                                            <option value="nom">nom</option>
-                                                            <option value="prenom">prenom</option>
-                                                             </select><br>
-                                                   <input type="submit" name="button" value="rechercher">
-                                                   </form>
+                                                   <script>
 
-                                                   <form action="trierreclamation.php" method="get" >
-                                                   trier par: <select name="column">
+                                                   $(document).ready(function() {
+                                                     $('#ici').tablesorter();
 
-                                                            <option value="nom">nom</option>
-                                                            <option value="prenom">prenom</option>
-                                                             </select><br>
-                                                             <input type="submit" name="button" value="trier">
-                                                   </form>
+                                                   });
+
+
+
+                                                   </script>
 
 
 
 
-                                                 <table id="customers">
+
+
+                                                   <input type="text" name="search_produit" id="search_produit" class="form-control" placeholder="Rercher"/>
+
+                                                 <table id="ici">
+                                                   <thead class ="thead-inverse">
                                                      <tr>
                                                          <th>type_reclamation</th>
                                                          <th>description_reclamation</th>
                                                          <th>client</th>
                                                          <th>etat_reclamation</th>
                                                          <th>reponse</th>
+                                                         <th>modifier</th>
+                                                         </thead>
                                                      </tr>
                                                      <?php
                                                      foreach ($liste2 as $row){
@@ -543,6 +610,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                    ?>
                                                    </table>
                                                  </div>
+                                                 </section>
+                                                 <script>
+                                                   $(document).ready(function() {
+                                                     $('#search_produit').keyup(function() {
+                                                       search_table($(this).val());
+                                                     });
+
+                                                     function search_table(value) {
+                                                       $('#ici tr').each(function() {
+                                                         var found = 'false';
+                                                         $(this).each(function() {
+                                                           if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                                                             found = 'true';
+                                                           }
+                                                         });
+                                                         if (found == 'true') {
+                                                           $(this).show();
+                                                         } else {
+                                                           $(this).hide();
+                                                         }
+                                                       });
+                                                     }
+                                                   });
+                                                 </script>
 
 
 

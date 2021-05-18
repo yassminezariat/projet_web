@@ -248,7 +248,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<section id="ajout">
 										<div class="grid-form">
 												<div class="grid-form1">
-														<h2 id="forms-example" class="">Ajouter une plante</h2>
+														<h2 id="forms-example" class="">Envoyer un mail</h2>
 														<form action="" method="POST" onSubmit="return controlersaisie();">
 															<div id="div_environnement" class="form-group">
 																<div>

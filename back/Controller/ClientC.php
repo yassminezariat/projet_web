@@ -1,12 +1,15 @@
 <?php
-require_once "../config.php";
-    require_once '../Model/Client.php';
+
+
+include_once "../connection.php" ;
+
+
 
 
 class clientC
 {
     function ajouterclient($Client){
-        $sql="INSERT INTO client (nom,prenom,email,login,password,adresse,tel) 
+        $sql="INSERT INTO client (nom,prenom,email,login,password,adresse,tel)
             VALUES (:nom,:prenom,:email,:login,:password,:adresse,:tel)";
         $db = config::getConnexion();
         try{
@@ -83,7 +86,7 @@ class clientC
         try {
             $db = config::getConnexion();
             $query = $db->prepare(
-                'UPDATE client SET                
+                'UPDATE client SET
 				      nom = :nom,
                     prenom = :prenom,
                     email = :email,
@@ -91,7 +94,7 @@ class clientC
                     password = :password,
                     adresse = :adresse,
                     tel = :tel
-                        
+
                     WHERE idClient = :idClient'
             );
             $query->execute([

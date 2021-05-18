@@ -94,19 +94,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         }
     </style>
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+    <link href="..\css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <!-- Custom CSS -->
-    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link href="..\css/style.css" rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="css/morris.css" type="text/css" />
     <!-- Graph CSS -->
-    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="..\css/font-awesome.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- //jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <!-- lined-icons -->
-    <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+    <link rel="stylesheet" href="..\css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
 </head>
 
@@ -420,7 +420,7 @@ else
                              <!--statistique sur les avis-->
 
                                        <section>
-                                         <script src="js/Chart.js"></script>
+                                         <script src="..\js/Chart.js"></script>
                                          <div class="charts-grids widget">
                                                        <h4 class="title"> statistique sur les types des avis </h4>
                                                        <canvas id="pie" width="488" height="438" style="width: 488px; height: 438px;"> </canvas>

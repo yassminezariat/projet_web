@@ -14,6 +14,7 @@
            $_POST['text'],
            $_POST['id_b'],
            $_SESSION['e']
+
        );
 
   $commentC->ajoutercomment($comment);
