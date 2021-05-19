@@ -3,7 +3,7 @@
 
 class EventC {
     function ajouterEvent($event){
-        $sql="INSERT INTO event (date,type,description,nom) VALUES (:date,:type,:description,:nom)";
+        $sql="INSERT INTO event (date,type,description,nom,image) VALUES (:date,:type,:description,:nom,:image)";
         $db = config::getConnexion();
         try{
             $req=$db->prepare($sql);
@@ -11,6 +11,7 @@ class EventC {
             $req->bindValue(':type',$event->getType());
             $req->bindValue(':description',$event->getDescription());
             $req->bindValue(':nom',$event->getnom());
+            $req->bindValue(':image',$event->getimage());
 
             $req->execute();
 
@@ -72,7 +73,7 @@ class EventC {
     }
 
     function modifierEvent($event,$id){
-        $sql="Update event set nom=:nom , date=:date,description=:description,type=:type where id=:id";
+        $sql="Update event set nom=:nom , date=:date,description=:description,type=:type,image=:image where id=:id";
         $db = config::getConnexion();
         try{
             $req=$db->prepare($sql);
@@ -80,6 +81,7 @@ class EventC {
             $req->bindValue(':type',$event->getType());
             $req->bindValue(':description',$event->getDescription());
             $req->bindValue(':nom',$event->getnom());
+            $req->bindValue(':image',$event->getimage());
             $req->bindValue(':id',$id);
             $req->execute();
         }

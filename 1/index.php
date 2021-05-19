@@ -2,6 +2,14 @@
 include_once "animal.php";
 include_once "animalC.php";
 include_once "BlogC.php";
+
+
+
+
+include_once "avis.php";
+include_once "avisC.php";
+include_once "reclamations.php";
+include_once "reclamationC.php";
 try{
     $pdo=config::getConnexion();
     $query= $pdo ->prepare(
@@ -13,13 +21,159 @@ $result = $query->fetchAll();
 catch(PDOException $e){
     $e->getMessage();
 }
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+        'SELECT * FROM event'
+    );
+    $query->execute();
+$resulta= $query->fetchAll();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+        'SELECT  avis.*,client.nom,client.prenom FROM avis inner join client on avis.id_user=client.idClient ORDER BY id_avis ASC LIMIT 3 '
+    );
+    $query->execute();
+$avinouch= $query->fetchAll();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+        'SELECT  avis.*,client.nom,client.prenom FROM avis inner join client on avis.id_user=client.idClient ORDER BY id_avis DESC LIMIT 3 '
+    );
+    $query->execute();
+$aviiii= $query->fetchAll();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
 session_start();
+$idddd= $_SESSION['e'];
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+      " SELECT avis.*,client.nom,client.prenom FROM avis inner join client on avis.id_user=client.idClient where id_user=$idddd ORDER BY id_avis ASC LIMIT 3 " );
+    $query->execute();
+$mesavis= $query->fetchAll();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+      " SELECT avis.*,client.nom,client.prenom FROM avis inner join client on avis.id_user=client.idClient where id_user=$idddd ORDER BY id_avis DESC LIMIT 3 " );
+    $query->execute();
+$mesavis2= $query->fetchAll();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+      "SELECT reclamations.*,client.nom,client.prenom FROM reclamations inner join client on reclamations.id_user=client.idClient where id_user=$idddd ORDER BY id_reclamation ASC LIMIT 3" );
+    $query->execute();
+$rcla= $query->fetchAll();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+      "SELECT reclamations.*,client.nom,client.prenom FROM reclamations inner join client on reclamations.id_user=client.idClient where id_user=$idddd  ORDER BY id_reclamation DESC LIMIT 3" );
+    $query->execute();
+$rcla2= $query->fetchAll();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+      "SELECT COUNT(ID_animal) as num FROM animaux" );
+    $query->execute();
+$an= $query->fetch();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+      "SELECT COUNT(id_plante) as num FROM plantes" );
+    $query->execute();
+$pl= $query->fetch();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+
+
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+      "SELECT COUNT(ID_produit) as num FROM produits" );
+    $query->execute();
+$pr= $query->fetch();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+
+
+$nommmbres = (int)$an['num']+(int)$pl['num']+(int)$pr['num'];
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+      "SELECT COUNT(idClient) as numm FROM client" );
+    $query->execute();
+$cl= $query->fetch();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+
+try{
+    $pdo=config::getConnexion();
+    $query= $pdo ->prepare(
+      "SELECT COUNT(id) as numm FROM blog" );
+    $query->execute();
+$bbll= $query->fetch();
+}
+catch(PDOException $e){
+    $e->getMessage();
+}
+
+
+
+
 $error = "";
 $success = 0;
 // create user
 $animal = null;
 $animalC = new animalC();
 $blogC = new BlogC();
+$avis= null;
+// create an instance of the controller
+$avisC = new avisC();
+if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_avis"]))
+     {
+
+    $avis = new Avis($_POST['description'],(int)$_POST['note'],$_SESSION['e'],(string)$_POST["type_avis"]);
+    $avisC->ajouteravis($avis);
+
+    header("location:index.php");
+  }
 
 ?>
 
@@ -85,7 +239,7 @@ $blogC = new BlogC();
         <header>
             <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-expand-lg navbar-light navbar-fixed-top">
                 <h1>
-                    <a class="navbar-brand" href="index.html" data-blast="color">
+                    <a class="navbar-brand" href="index.php" data-blast="color">
                         Creature
                     </a>
                 </h1>
@@ -95,18 +249,21 @@ $blogC = new BlogC();
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-lg-auto text-center">
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.html" data-blast="color">Home
+                            <a class="nav-link" href="index.php" data-blast="color">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item  mt-lg-0 mt-3">
-                            <a class="nav-link scroll" href="#about">about</a>
+                            <a class="nav-link scroll" href="#our_animals">Animals</a>
                         </li>
                         <li class="nav-item  mt-lg-0 mt-3">
-                            <a class="nav-link scroll" href="#about">Blog</a>
+                            <a class="nav-link scroll" href="#our_plants">Plants</a>
                         </li>
                         <li class="nav-item mt-lg-0 mt-3">
-                            <a class="nav-link scroll" href="#services">features</a>
+                            <a class="nav-link scroll" href="#posts">Blog</a>
+                        </li>
+                        <li class="nav-item mt-lg-0 mt-3">
+                            <a class="nav-link scroll" href="#events">Events</a>
                         </li>
                         <li class="nav-item dropdown mt-lg-0 mt-3">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -140,6 +297,45 @@ $blogC = new BlogC();
                                 <span class="line"></span>
                                 <p>shop</p>
                                 <a class="btn bg-theme mt-4 w3_pvt-link-bnr scroll" data-blast="bgColor" href="#our_animals" role="button">View
+                                    More</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="banner banner1">
+                    <div class="container">
+                        <div class="banner-text">
+                            <div class="slider-info">
+                                <h3>Our Plants</h3>
+                                <span class="line"></span>
+                                <p>shop</p>
+                                <a class="btn bg-theme mt-4 w3_pvt-link-bnr scroll" data-blast="bgColor" href="#our_plants" role="button">View
+                                    More</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="banner banner1">
+                    <div class="container">
+                        <div class="banner-text">
+                            <div class="slider-info">
+                                <h3>Our Blog</h3>
+                                <span class="line"></span>
+                                <p>shop</p>
+                                <a class="btn bg-theme mt-4 w3_pvt-link-bnr scroll" data-blast="bgColor" href="#posts" role="button">View
+                                    More</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="banner banner1">
+                    <div class="container">
+                        <div class="banner-text">
+                            <div class="slider-info">
+                                <h3>Our Events</h3>
+                                <span class="line"></span>
+                                <p>shop</p>
+                                <a class="btn bg-theme mt-4 w3_pvt-link-bnr scroll" data-blast="bgColor" href="#events" role="button">View
                                     More</a>
                             </div>
                         </div>
@@ -306,29 +502,27 @@ $blogC = new BlogC();
                 <h2 class="w3pvt-title">We Move The World To Protect Animals
                 </h2>
                 <p class="my-4 text-white">
-                    Vestibulum volutpat non eros ut vulputate. Nunc id risus accumsan Donec mi nulla, auctor
-                    nec sem a, ornare auctor mi. Sed
-                    mi tortor, commodo a felis in, fringilla tincidunt nulla.</p>
+                    We are a companie that loves animals and loves its users !</p>
                 <div class="row py-4">
                     <div class="col-md-4 col-6">
                         <div class="counter">
                             <span class="fa fa-smile-o"></span>
-                            <div class="timer count-title count-number mt-2 text-white" data-to="297" data-speed="1500"></div>
-                            <p class="count-text text-uppercase text-white">volunteers</p>
+                            <div class="timer count-title count-number mt-2 text-white"  <?php echo "data-to='",$nommmbres," '" ?> data-speed="1500"></div>
+                            <p class="count-text text-uppercase text-white">Product</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-6">
                         <div class="counter">
                             <span class="fa fa-users"></span>
-                            <div class="timer count-title count-number mt-2 text-white" data-to="194" data-speed="1500"></div>
-                            <p class="count-text text-uppercase text-white">projects completed</p>
+                            <div class="timer count-title count-number mt-2 text-white" <?php echo "data-to='",(int)$cl['numm']," '" ?> data-speed="1500"></div>
+                            <p class="count-text text-uppercase text-white">Client</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-6 mt-md-0 mt-4">
                         <div class="counter">
                             <span class="fa fa-database"></span>
-                            <div class="timer count-title count-number mt-2 text-white" data-to="2298" data-speed="1500"></div>
-                            <p class="count-text text-uppercase text-white">donars</p>
+                            <div class="timer count-title count-number mt-2 text-white" <?php echo "data-to='",(int)$bbll['numm']," '" ?> data-speed="1500"></div>
+                            <p class="count-text text-uppercase text-white">Blog</p>
                         </div>
                     </div>
                 </div>
@@ -338,155 +532,13 @@ $blogC = new BlogC();
     </section>
     <!-- //stats -->
     <!-- services -->
-    <div class="w3lspvt-about py-md-5 py-5" id="services">
-        <div class="container pt-lg-5">
-            <div class="title-desc text-center pb-sm-3">
-                <h3 class="main-title-w3pvt">premium features</h3>
-                <p>helping animals & working on environmental issues.</p>
-            </div>
-            <div class="w3lspvt-about-row row  text-center pt-md-0 pt-5 mt-lg-5">
-                <div class="col-lg-4 col-sm-6 w3lspvt-about-grids">
-                    <div class="p-md-5 p-sm-3">
-                        <span class="fa fa-map-marker" data-blast="borderColor"></span>
-                        <h4 class="mt-2 mb-3" data-blast="color">wind energy</h4>
-                        <p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores alias consequatur aut</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6 w3lspvt-about-grids  border-left border-right my-sm-0 my-5">
-                    <div class="p-md-5 p-sm-3">
-                        <span class="fa fa-check-circle-o" data-blast="borderColor"></span>
-                        <h4 class="mt-2 mb-3" data-blast="color">pollution</h4>
-                        <p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores alias consequatur aut</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 w3lspvt-about-grids">
-                    <div class="p-md-5 p-sm-3">
-                        <span class="fa fa-paw" data-blast="borderColor"></span>
-                        <h4 class="mt-2 mb-3" data-blast="color">saving animals</h4>
-                        <p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores alias consequatur aut</p>
-                    </div>
-                </div>
-            </div>
-            <div class="w3lspvt-about-row border-top row text-center pt-md-0 pt-5 mt-md-0 mt-5">
-                <div class="col-lg-4 col-sm-6 w3lspvt-about-grids">
-                    <div class="p-md-5 p-sm-3 col-label">
-                        <span class="fa fa-tint" data-blast="borderColor"></span>
-                        <h4 class="mt-2 mb-3" data-blast="color">water</h4>
-                        <p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores alias consequatur aut</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6 w3lspvt-about-grids mt-lg-0 mt-md-3 border-left border-right pt-sm-0 pt-5">
-                    <div class="p-md-5 p-sm-3 col-label">
-                        <span class="fa fa-handshake-o" data-blast="borderColor">
-                        </span>
-                        <h4 class="mt-2 mb-3" data-blast="color">protection</h4>
-                        <p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores alias consequatur aut</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 w3lspvt-about-grids pt-md-0 pt-5">
-                    <div class="p-md-5 p-sm-3 col-label">
-                        <span class="fa fa-bar-chart" data-blast="borderColor"></span>
-                        <h4 class="mt-2 mb-3" data-blast="color">nature</h4>
-                        <p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores alias consequatur aut</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- //services -->
     <!-- slide -->
-    <div class="abt_bottom py-lg-5 bg-theme" data-blast="bgColor">
-        <div class="container py-sm-4 py-3">
-            <h4 class="abt-text text-capitalize text-sm-center">Over 70% of donations made to us directly impact animals
-                in the wild</h4>
-            <div class="d-sm-flex justify-content-center">
-                <a class="btn light-bg mt-4 w3_pvt-link-bnr scroll bg-theme1" href="#contact" role="button">contact
-                    us
-                </a>
-                <a href="#" role="button" data-toggle="modal" data-target="#exampleModal1" class="btn light-bg mt-4 ml-sm-3 w3_pvt-link-bnr">
-                    make a contribution</a>
-            </div>
-        </div>
-    </div>
+
     <!-- //slide -->
     <!-- pricing plans -->
-    <section class="py-lg-5 py-4" id="plans">
-        <div class="container py-md-5">
-            <div class="title-desc text-center pb-sm-3">
-                <h3 class="main-title-w3pvt">recent projects</h3>
-                <p>helping animals & working on environmental issues.</p>
-            </div>
-            <div class="row price-row">
-                <div class="col-lg-4 col-sm-6 column mb-lg-0 mb-4">
-                    <div class="box" data-blast="borderColor">
-                        <div class="title">
-                            <span class="fa fa-gg" data-blast="color"></span>
-                            <h5 data-blast="color">protecting forests</h5>
-                        </div>
-                        <div class="price">
-                            <h6>funds needed - <sup>$</sup><span class="font-weight-bold">800</span></h6>
-                        </div>
-                        <div class="option">
-                            <ul>
-                                <li>50 Gb Space</li>
-                                <li>5 Domain Names</li>
-                                <li>20 Email Address</li>
-                                <li>Live Support</li>
-                            </ul>
-                        </div>
-                        <button type="button" class="btn w3ls-btn bg-theme  d-block" data-toggle="modal" aria-pressed="false" data-target="#exampleModal" data-blast="bgColor">
-                            donate now
-                        </button>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6 column mb-lg-0 mb-4">
-                    <div class="box" data-blast="borderColor">
-                        <div class="title">
-                            <span class="fa fa-money" data-blast="color"></span>
-                            <h5 data-blast="color">rescue rehabilitation</h5>
-                        </div>
-                        <div class="price">
-                            <h6>funds needed - <sup>$</sup><span class="font-weight-bold">1200</span></h6>
-                        </div>
-                        <div class="option">
-                            <ul>
-                                <li>50 Gb Space</li>
-                                <li>5 Domain Names</li>
-                                <li>20 Email Address</li>
-                                <li>Live Support</li>
-                            </ul>
-                        </div>
-                        <button type="button" class="btn w3ls-btn bg-theme  d-block" data-toggle="modal" aria-pressed="false" data-target="#exampleModal" data-blast="bgColor">
-                            donate now
-                        </button>
-                    </div>
-                </div>
 
-                <div class="col-lg-4 col-sm-6  mx-auto mt-lg-0 mt-4 column">
-                    <div class="box" data-blast="borderColor">
-                        <div class="title">
-                            <span class="fa fa-gg" data-blast="color"></span>
-                            <h5 data-blast="color">environmental air</h5>
-                        </div>
-                        <div class="price">
-                            <h6>funds needed - <sup>$</sup><span class="font-weight-bold">3000</span></h6>
-                        </div>
-                        <div class="option">
-                            <ul>
-                                <li>50 Gb Space</li>
-                                <li>5 Domain Names</li>
-                                <li>20 Email Address</li>
-                                <li>Live Support</li>
-                            </ul>
-                        </div>
-                        <button type="button" class="btn w3ls-btn bg-theme  d-block" data-toggle="modal" aria-pressed="false" data-target="#exampleModal" data-blast="bgColor">
-                            donate now
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- //pricing plans -->
     <!-- team -->
     <section class="team py-4 py-lg-5" id="team">
@@ -577,69 +629,46 @@ $blogC = new BlogC();
 
             </div>
         </section>
+        <section class="team py-4 py-lg-5" id="our_plants">
+            <div class="container py-lg-5 py-sm-4">
+                <div class="title-desc text-center pb-sm-3">
+                    <h3 class="main-title-w3pvt">Our Plants</h3>
+                    <p>We have the best Plants !</p>
+                </div>
+
+                    <?php $animalC->afficherplante();?>
+
+                </div>
+            </section>
     <!-- portfolio -->
     <section class="wthree-row w3-gallery cliptop-portfolio-wthree pt-lg-5" id="portfolio">
         <div class="container-fluid">
-            <div class="title-desc text-center pb-3">
-                <h3 class="main-title-w3pvt">portfolio</h3>
-                <p>create your outstanding clean and high quality website.</p>
-            </div>
-            <ul class="demo row py-lg-5 py-sm-4 pb-4">
-                <li class="col-lg-3 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g1.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-3 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g4.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-3 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g5.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-3 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g3.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-4 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g2.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-4 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g1.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-4 col-sm-6 mx-auto">
-                    <div class="gallery-grid1">
-                        <img src="images/g4.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-3 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g5.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-3 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g4.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-3 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g6.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
-                <li class="col-lg-3 col-sm-6">
-                    <div class="gallery-grid1">
-                        <img src="images/g5.jpg" alt=" " class="img-fluid img-thumbnail" />
-                    </div>
-                </li>
+          <div class="title-desc text-center pb-3">
+              <h3 class="main-title-w3pvt">portfolio</h3>
+              <p>create your outstanding clean and high quality website.</p>
+          </div>
+          <ul class="demo row py-lg-5 py-sm-4 pb-4">
+
+
+          <?php
+          $files = scandir('../back/images/animals');
+          foreach($files as $file) {
+            if(strcmp($file,".")==0 or strcmp($file,"..")==0)
+            {}
+            else
+          {echo "<li class='col-lg-3 col-sm-6'>" ;
+          echo"<div class='gallery-grid1'>" ;
+          echo "<img src='..\back/images/animals/",$file,"' alt=' ' class='img-fluid img-thumbnail' />" ;
+          echo "</div>" ;
+      echo "</li>" ;
+    };
+    } ?>
+
+
+
+
+
+
             </ul>
         </div>
     </section>
@@ -648,8 +677,8 @@ $blogC = new BlogC();
     <div class="testimonials py-lg-5 py-4" id="testi">
         <div class="container">
             <div class="title-desc text-center pb-3">
-                <h3 class="main-title-w3pvt">Our Volunteer</h3>
-                <p>Helping animals & working on environmental issues.</p>
+                <h3 class="main-title-w3pvt">Les avis</h3>
+                <p>Vos avis nous intersses  </p>
             </div>
             <div id="carouselExampleIndicators" class="carousel slide py-lg-5" data-ride="carousel">
                 <ol class="carousel-indicators">
@@ -659,106 +688,68 @@ $blogC = new BlogC();
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="row">
-                            <div class="col-lg-4">
-                                <div class="testimonials_grid">
-                                    <div class="testi-text text-center">
-                                        <p><span class="fa fa-quote-left"></span>Stet clita kasd gubergren, no sea
-                                            takimata sanctus est Lorem ipsum dolor sit amet<span class="fa fa-quote-right"></span>
-                                        </p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="testi-desc">
-                                            <span class="fa fa-user" data-blast="color"></span>
-                                            <h5>Aliquyam</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="testimonials_grid my-lg-0 my-4">
-                                    <div class="testi-text text-center">
-                                        <p><span class="fa fa-quote-left"></span>Stet clita kasd gubergren, no sea
-                                            takimata sanctus est Lorem ipsum dolor sit amet<span class="fa fa-quote-right"></span>
-                                        </p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="testi-desc">
-                                            <span class="fa fa-user" data-blast="color"></span>
-                                            <h5>Aliquyam</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="testimonials_grid">
-                                    <div class="testi-text text-center">
-                                        <p><span class="fa fa-quote-left"></span>Stet clita kasd gubergren, no sea
-                                            takimata sanctus est Lorem ipsum dolor sit amet<span class="fa fa-quote-right"></span>
-                                        </p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="testi-desc">
-                                            <span class="fa fa-user" data-blast="color"></span>
-                                            <h5>Aliquyam</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
+
+                          <?php
+                          foreach ($avinouch as $av)
+                          {
+                            echo "<div class='col-lg-4'>";
+                                echo "<div class='testimonials_grid'>";
+                                    echo "<div class='testi-text text-center'>";
+                                        echo "<p><span class='fa fa-quote-left'></span>",$av['description'],"<span class='fa fa-quote-right'></span>";
+                                        echo "</p>";
+                                    echo "</div>";
+                                    echo "<div class='d-flex align-items-center justify-content-center'>";
+                                        echo "<div class='testi-desc'>";
+                                            echo "<span class='fa fa-user' data-blast='color'></span>";
+                                            echo "<h5>",$av['nom'],"  ",$av['prenom'],"</h5>";
+                                            echo "<p>",$av['date_avis'],"</p>";
+                                        echo "</div>";
+                                    echo "</div>";
+                                echo "</div>";
+                            echo "</div>";}
+                            ?>
+
+
+
+
+
+
+
+
                         </div>
                     </div>
                     <div class="carousel-item">
                         <div class="row">
-                            <div class="col-lg-4">
-                                <div class="testimonials_grid">
-                                    <div class="testi-text text-center">
-                                        <p><span class="fa fa-quote-left"></span>Stet clita kasd gubergren, no sea
-                                            takimata sanctus est Lorem ipsum dolor sit amet<span class="fa fa-quote-right"></span>
-                                        </p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="testi-desc">
-                                            <span class="fa fa-user" data-blast="color"></span>
-                                            <h5>Takimata</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="testimonials_grid my-lg-0 my-4">
-                                    <div class="testi-text text-center">
-                                        <p><span class="fa fa-quote-left"></span>Stet clita kasd gubergren, no sea
-                                            takimata sanctus est Lorem ipsum dolor sit amet<span class="fa fa-quote-right"></span>
-                                        </p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="testi-desc">
-                                            <span class="fa fa-user" data-blast="color"></span>
-                                            <h5>Takimata</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="testimonials_grid">
-                                    <div class="testi-text text-center">
-                                        <p><span class="fa fa-quote-left"></span>Stet clita kasd gubergren, no sea
-                                            takimata sanctus est Lorem ipsum dolor sit amet<span class="fa fa-quote-right"></span>
-                                        </p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="testi-desc">
-                                            <span class="fa fa-user" data-blast="color"></span>
-                                            <h5>Sanctus</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
+                          <?php
+                          foreach ($aviiii as $av)
+                          {
+                            echo "<div class='col-lg-4'>";
+                                echo "<div class='testimonials_grid'>";
+                                    echo "<div class='testi-text text-center'>";
+                                        echo "<p><span class='fa fa-quote-left'></span>",$av['description'],"<span class='fa fa-quote-right'></span>";
+                                        echo "</p>";
+                                    echo "</div>";
+                                    echo "<div class='d-flex align-items-center justify-content-center'>";
+                                        echo "<div class='testi-desc'>";
+                                            echo "<span class='fa fa-user' data-blast='color'></span>";
+                                            echo "<h5>",$av['nom'],"  ",$av['prenom'],"</h5>";
+                                            echo "<p>",$av['date_avis'],"</p>";
+                                        echo "</div>";
+                                    echo "</div>";
+                                echo "</div>";
+                            echo "</div>";}
+                            ?>
+
+
+
+
+
+
+
                         </div>
                     </div>
 
@@ -777,6 +768,22 @@ $blogC = new BlogC();
             <div class="row mt-4">
 
                 <?php $blogC->afficherblog($result);?>
+
+
+                </div>
+                <!-- //blog grid -->
+            </div>
+        </div>
+    </section>
+    <section class="blog_w3ls pb-lg-5 pb-4" id="events">
+        <div class="container py-sm-5 py-4">
+            <div class="title-desc text-center pb-sm-3 mb-lg-5">
+                <h3 class="main-title-w3pvt">Our events</h3>
+                <p>Helping animals & working on environmental issues.</p>
+            </div>
+            <div class="row mt-4">
+
+                <?php $blogC->affficherevent($resulta);?>
 
 
                 </div>
@@ -838,35 +845,256 @@ $blogC = new BlogC();
                 <div class="col-lg-7">
                     <h5 class="cont-form" data-blast="color">contact form</h5>
                     <div class="contact-form-wthreelayouts">
-                        <form action="#" method="post" class="register-wthree">
-                            <div class="form-group">
-                                <label>
-                                    Your Name
-                                </label>
-                                <input class="form-control" type="text" placeholder="Johnson" name="email" required="">
+                      <form action="#" method="post" class="register-wthree" onSubmit="return Verification()">
+                      <div>
+                        <label for="exampleInputPassword1">Le type de votre avis: </label>
+                          <br></br>
+                        <select class="form-control" name="type_avis">
+                          <option value="un avis favorable">un avis favorable </option>
+                          <option value="un avis defavorable">un avis defavorable</option>
+                        </select>
+
+                      </div>
+                      <br></br>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">La note </label>
+                          <select class="form-control" name="note">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+                        <br></br>
+                        <div class="form-group">
+                          <label  for="exampleInputPassword1">Votre avis:</label>
+                          <br></br>
+                            <textarea   class="form-control"  type="text" name="description"  id="description" > </textarea>
+                        </div>
+
+
+                        <div class="form-group mb-0">
+                            <button type="submit" class="btn btn-w3layouts btn-block  bg-theme text-white w-100 font-weight-bold text-uppercase" data-blast="bgColor" >Send</button>
+                        </div>
+
+                    </form>
+                    <script>
+                    function Verification() {
+                      var mess = document.getElementById('description').value;
+                      if(mess==''){
+                    alert('Vous devez ecrire un message !');
+                    document.getElementById('description').style.backgroundColor="red";
+                    document.getElementById('description').style.color="#FFF";
+
+                    // Permet de bloquer l'envoi du formulaire
+                    return false;
+                    }
+                    else{
+                    document.getElementById('description').style.backgroundColor="#9C6";
+                    }
+                    }
+                    </script>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonials py-lg-5 py-4" id="testi">
+                <div class="container">
+                    <div class="title-desc text-center pb-3">
+                        <h3 class="main-title-w3pvt">Mes avis</h3>
+                        <p>Vos avis nous intersses  </p>
+                    </div>
+                    <div id="carouselExampleIndicators" class="carousel slide py-lg-5" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active" data-blast="borderColor"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1" data-blast="borderColor"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="row">
+
+
+
+                                  <?php
+                                  foreach ($mesavis as $av)
+                                  {
+                                    echo "<div class='col-lg-4'>";
+                                        echo "<div class='testimonials_grid'>";
+                                            echo "<div class='testi-text text-center'>";
+                                                echo "<p><span class='fa fa-quote-left'></span>",$av['description'],"<span class='fa fa-quote-right'></span>";
+                                                echo "</p>";
+                                            echo "</div>";
+                                            echo "<div class='d-flex align-items-center justify-content-center'>";
+                                                echo "<div class='testi-desc'>";
+                                                echo  "<a href='modifavis.php?id=",$av['id_avis'],"'>Modifier</a>";
+                                                echo "<br></br>";
+                                              echo  "<a href='supprimer_avis.php?id=",$av['id_avis'],"'>Supprimer</a>";
+                                              echo "<br></br>";
+                                                    echo "<span class='fa fa-user' data-blast='color'></span>";
+                                                    echo "<h5>",$av['nom'],"  ",$av['prenom'],"</h5>";
+                                                    echo "<p>",$av['date_avis'],"</p>";
+                                                echo "</div>";
+                                            echo "</div>";
+                                        echo "</div>";
+                                    echo "</div>";}
+                                    ?>
+
+
+
+
+
+
+
+
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>
-                                    Mobile
-                                </label>
-                                <input class="form-control" type="text" placeholder="xxxx xxxxx" name="email" required="">
+                            <div class="carousel-item">
+                                <div class="row">
+
+
+                                  <?php
+                                  foreach ($mesavis2 as $av)
+                                  {
+                                    echo "<div class='col-lg-4'>";
+                                        echo "<div class='testimonials_grid'>";
+                                            echo "<div class='testi-text text-center'>";
+                                                echo "<p><span class='fa fa-quote-left'></span>",$av['description'],"<span class='fa fa-quote-right'></span>";
+                                                echo "</p>";
+                                            echo "</div>";
+                                            echo "<div class='d-flex align-items-center justify-content-center'>";
+                                                echo "<div class='testi-desc'>";
+                                                echo  "<a href='modifavis.php?id=",$av['id_avis'],"'>Modifier</a>";
+                                                echo "<br></br>";
+                                              echo  "<a href='supprimer_avis.php?id=",$av['id_avis'],"'>Supprimer</a>";
+                                              echo "<br></br>";
+                                                    echo "<span class='fa fa-user' data-blast='color'></span>";
+                                                    echo "<h5>",$av['nom'],"  ",$av['prenom'],"</h5>";
+                                                    echo "<p>",$av['date_avis'],"</p>";
+                                                echo "</div>";
+                                            echo "</div>";
+                                        echo "</div>";
+                                    echo "</div>";}
+                                    ?>
+
+
+
+
+
+
+
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>
-                                    Email
-                                </label>
-                                <input class="form-control" type="email" placeholder="example@email.com" name="email" required="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonials py-lg-5 py-4" id="testi">
+                <div class="container">
+                    <div class="title-desc text-center pb-3">
+                        <h3 class="main-title-w3pvt">Mes reclamations</h3>
+                        <p>Vos avis nous intersses  </p>
+                    </div>
+                    <div id="carouselExampleIndicators" class="carousel slide py-lg-5" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active" data-blast="borderColor"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1" data-blast="borderColor"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="row">
+
+
+
+                                  <?php
+                                  foreach ($rcla as $av)
+                                  {
+                                    echo "<div class='col-lg-4'>";
+                                        echo "<div class='testimonials_grid'>";
+                                            echo "<div class='testi-text text-center'>";
+                                                echo "<p><span class='fa fa-quote-left'></span>",$av['description_reclamation'],"<span class='fa fa-quote-right'></span>";
+                                                echo "</p>";
+                                            echo "</div>";
+                                            echo "<div class='testi-desc'>";
+
+                                                echo "<p>Etat :",$av['etat_reclamation'],"</p>";
+                                                echo "<p>Reponse :",$av['reponse'],"</p>";
+                                                echo "<br></br>";
+                                            echo "</div>";
+                                            echo "<div class='d-flex align-items-center justify-content-center'>";
+                                                echo "<div class='testi-desc'>";
+                                                echo  "<a href='modifrecla.php?id=",$av['id_reclamation'],"'>Modifier</a>";
+                                                echo "<br></br>";
+                                              echo  "<a href='supprimer_recla.php?id=",$av['id_reclamation'],"'>Supprimer</a>";
+                                              echo "<br></br>";
+                                                    echo "<span class='fa fa-user' data-blast='color'></span>";
+                                                    echo "<h5>",$av['nom'],"  ",$av['prenom'],"</h5>";
+                                                    echo "<p>",$av['date_reclamation'],"</p>";
+                                                echo "</div>";
+                                            echo "</div>";
+                                        echo "</div>";
+                                    echo "</div>";}
+                                    ?>
+
+
+
+
+
+
+
+
+                                </div>
+
                             </div>
-                            <div class="form-group">
-                                <label>
-                                    Your message
-                                </label>
-                                <textarea placeholder="Type your message here" class="form-control"></textarea>
+                            <div class="carousel-item">
+                                <div class="row">
+
+
+                                  <?php
+                                  foreach ($rcla2 as $av)
+                                  {
+                                    echo "<div class='col-lg-4'>";
+                                        echo "<div class='testimonials_grid'>";
+                                            echo "<div class='testi-text text-center'>";
+                                                echo "<p><span class='fa fa-quote-left'></span>",$av['description_reclamation'],"<span class='fa fa-quote-right'></span>";
+                                                echo "</p>";
+                                            echo "</div>";
+                                            echo "<div class='testi-desc'>";
+
+                                                echo "<p>Etat :",$av['etat_reclamation'],"</p>";
+                                                echo "<p>Reponse :",$av['reponse'],"</p>";
+                                                echo "<br></br>";
+                                            echo "</div>";
+                                            echo "<div class='d-flex align-items-center justify-content-center'>";
+                                                echo "<div class='testi-desc'>";
+                                                echo  "<a href='modifrecla.php?id=",$av['id_reclamation'],"'>Modifier</a>";
+                                                echo "<br></br>";
+                                              echo  "<a href='supprimer_recla.php?id=",$av['id_reclamation'],"'>Supprimer</a>";
+                                              echo "<br></br>";
+                                                    echo "<span class='fa fa-user' data-blast='color'></span>";
+                                                    echo "<h5>",$av['nom'],"  ",$av['prenom'],"</h5>";
+                                                    echo "<p>",$av['date_reclamation'],"</p>";
+                                                echo "</div>";
+                                            echo "</div>";
+                                        echo "</div>";
+                                    echo "</div>";}
+                                    ?>
+
+
+
+
+
+
+
+                                </div>
                             </div>
-                            <div class="form-group mb-0">
-                                <button type="submit" class="btn btn-w3layouts btn-block  bg-theme text-white w-100 font-weight-bold text-uppercase" data-blast="bgColor">Send</button>
-                            </div>
-                        </form>
+
+                        </div>
+                        <div class="right-w3l">
+                          <form action="ajouter_reclamation.php">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" name="submit" href ="ajouter_reclamation.php">Ajouter Reclamation</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -880,6 +1108,7 @@ $blogC = new BlogC();
 
     </section>
     <!-- //contact -->
+
     <!-- footer -->
     <footer class="cpy-right bg-theme" data-blast="bgColor">
         <div class="container">
@@ -1010,6 +1239,7 @@ $blogC = new BlogC();
     <!-- // register -->
     <!-- blog modal1 -->
     <?php $blogC->afficherblog2($result);?>
+    <?php $blogC->afficherevent2($resulta);?>
     <!-- //blog modal1 -->
     <!-- blog modal2 -->
 

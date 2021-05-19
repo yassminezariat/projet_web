@@ -305,6 +305,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
             <li id="menu-academico"><a href="events.php"><i class="fa fa-envelope nav_icon"></i><span>Gestion</span>
+              gestui
                     <div class="clearfix"></div>
                 </a>
                 <ul id="menu-academico-sub">

@@ -6,14 +6,17 @@ class Event
     private $date;
     private $type;
     private $description;
+    private $image;
 
 
-    public function __construct($nom,$date,$type,$description)
+
+    public function __construct($nom,$date,$type,$description,$image)
     {
         $this->nom=$nom;
         $this->date=$date;
         $this->type=$type;
         $this->description=$description;
+        $this->image=$image;
 
     }
 
@@ -34,8 +37,12 @@ class Event
     {
         return $this->date;
     }
+    public function getimage()
+    {
+        return $this->image;
+    }
 
-    
+
     public function getnom()
     {
         return $this->nom;

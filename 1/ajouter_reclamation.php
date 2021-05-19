@@ -2,35 +2,25 @@
 
   session_start();
 
-  include_once 'Controller/ClientC.php';
-  include_once 'Model/Client.php';
-$message="";
-$Client1C = new clientC();
+  include_once 'reclamationC.php';
+  include_once 'reclamations.php';
+  include_once 'connection.php';
 
-$ClientC = new ClientC();
 
-if (isset($_POST["email"]) &&
-    isset($_POST["password"])) {  if (!empty($_POST["email"]) && !empty($_POST["password"]))
-    {   $message=$ClientC->connexionUser($_POST["email"],$_POST["password"]);
-      $hedha=$ClientC->idClientt($_POST["email"],$_POST["password"]);
 
-        $_SESSION['e'] = $hedha['idClient'];
-      // on stocke dans le tableau une colonne ayant comme nom "e",
-        //  avec l'email à l'intérieur
+$reclamations= null;
+  // create an instance of the controller
+  $reclamationC = new reclamationC();
 
-        if($message!='pseudo ou le mot de passe est incorrect') {
+if (isset($_POST["type_reclamation"])&& isset($_POST["description_reclamation"]))
+       {
 
-            $user = $Client1C->recupererrole($_POST['email']);
-            if ($user['role'] == 'client') {
-                header('Location:index.php'); //client
-            }else
-                { header('Location:../back/');} //admin
-        }
-        else{
-            $message='pseudo ou le mot de passe est incorrect';
-        }}
-    else
-        $message = "Missing information";}
+      $reclamations = new reclamations((string)$_POST['type_reclamation'],(string)$_POST['description_reclamation'],(int)$_SESSION['e']);
+      $reclamationC->ajouterreclamation($reclamations);
+
+      header("location:index.php");
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -68,40 +58,75 @@ if (isset($_POST["email"]) &&
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
 
+  <script>
+  function Verification() {
+    var mess = document.getElementById('description').value;
+    if(mess.length == 0){
+  alert('Vous devez ecrire un message !');
+  document.getElementById('description').style.backgroundColor="red";
+  document.getElementById('description').style.color="#FFF";
 
+  // Permet de bloquer l'envoi du formulaire
+  return false;
+  }
+  else{
+  document.getElementById('description').style.backgroundColor="#9C6";
+  }
+  }
+  </script>
   <div class="modal-content">
     <form action="" method="POST">
               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Signin</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Modifier avis</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">×</span>
                   </button>
+
               </div>
               <div class="modal-body">
-                  <form action="#" method="POST" class="p-sm-3">
-                      <div class="form-group">
-                          <label for="recipient-name" class="col-form-label">Username</label>
-                          <input type="text" class="form-control" placeholder="email" name="email" id="email" required="">
-                      </div>
-                      <div class="form-group">
-                          <label for="password" class="col-form-label">Password</label>
-                          <input type="password" class="form-control" placeholder="password" name="password" id="password" required="">
-                      </div>
-                      <div class="right-w3l">
-                          <input class="btn btn-primary btn-lg btn-block" type="submit" name="submit" value="Se Connecter" onClick="validation()">
-                      </div>
+                  <form action="#" method="POST" class="p-sm-3" onSubmit="return Verification()">
+                    <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">type de reclamation</label>
+                            <select name="type_reclamation"  class="form-control" placeholder="type_reclamation" id="type_reclamation" required="">
+                              <option value="Produits">Produits</option>
+                              <option value="le site">le site</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-email" class="col-form-label">Votre reclamation </label>
+                            <input type="text" class="form-control" placeholder="" name="description_reclamation" id="description_reclamation" required="">
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="form-group">
+
+                        </div>
+
+                        <div class="right-w3l">
+                            <input type="submit" class="form-control" value="ENVOYER" onSubmit="return Verification2()">
+                        </div>
+
+
                       <div class="row sub-w3l my-3">
-                          <div class="col-sm-6 sub-w3_pvt">
 
-                              <label for="brand1">
-                                Vous n'avez pas un compte ?
-                                <a href="inscreption.php">S'inscrire</a>
-
-                          </div>
-                          <div class="col-sm-6 forgot-w3l text-sm-right">
-                              <a href="#" class="text-secondary">Forgot Password?</a>
-                          </div>
                       </div>
+                      <script>
+                        function Verification2() {
+                          var messs = document.getElementById('description_reclamation').value;
+                          if(messs==''){
+                        alert('Vous devez ecrire un message !');
+                        document.getElementById('description_reclamation').style.backgroundColor="red";
+                        document.getElementById('description_reclamation').style.color="#FFF";
+
+                        // Permet de bloquer l'envoi du formulaire
+                        return false;
+                        }
+                        else{
+                        document.getElementById('description_reclamation').style.backgroundColor="#9C6";
+                        }
+                        }
+                        </script>
+
 
                   </form>
               </div>

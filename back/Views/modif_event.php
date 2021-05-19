@@ -20,7 +20,7 @@ $animalC = new EventC();
 
 
 if(isset($_POST['nom'])&&isset($_POST['type']) && isset($_POST['description']) && isset($_POST['date'])){
-    $e=new Event($_POST['nom'],$_POST['date'],$_POST['type'],$_POST['description']);
+    $e=new Event($_POST['nom'],$_POST['date'],$_POST['type'],$_POST['description'],$_POST['image']);
     $eventc=new EventC();
     $eventc->modifierEvent($e,$id);
     header("location: gestion_event.php");
@@ -339,6 +339,11 @@ $liste=$eventc->afficherEvent();
                               <textarea onblur="calculeLongueur();" onfocus="calculeLongueur();" onkeydown="calculeLongueur();" onkeyup="calculeLongueur();" id="msg" name="description" value="<?php echo $rows['description'] ?>" required></textarea>
                               <div  role="alert" id="err_prix" ></div>
                           </div>
+                          <div id="div_image" class="form-group">
+                              <label for="exampleInputFile">Image</label>
+                              <input type="file" class="form-control1" name="image" id="image">
+                              <div  role="alert" id="err_image" ></div>
+                          </div>
                           <?php } ?>
                           <script language="javascript" type="text/javascript">
                               function calculeLongueur(){
@@ -427,6 +432,7 @@ $liste=$eventc->afficherEvent();
                                     <td><?php echo $item['type'] ?></td>
                                     <td><?php echo $item['description'] ?></td>
                                     <td><?php echo $item['date'] ?></td>
+                                    <td><?php echo $item['image'] ?></td>
 
                                     <td><a href="supprimerEvent.php?id=<?php echo $item['id'] ?>" class="btn btn-danger">Supprimer</a></td>
                                 </tr>
@@ -466,7 +472,7 @@ $liste=$eventc->afficherEvent();
               <div class="charts">
                   <div class="col-md-4 w3l-char">
           <div class="charts-grids widget"  id="pdf">
-            <h4 class="title">Stat des especes des animaux</h4>
+            <h4 class="title">Stat des types</h4>
 
             <canvas id="pie" width="922" height="813" style="width: 738px; height: 651px;"> </canvas>
           </div>

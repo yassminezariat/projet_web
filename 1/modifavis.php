@@ -2,35 +2,31 @@
 
   session_start();
 
-  include_once 'Controller/ClientC.php';
-  include_once 'Model/Client.php';
-$message="";
-$Client1C = new clientC();
+  include_once 'avisC.php';
+  include_once 'avis.php';
+  include_once 'connection.php';
 
-$ClientC = new ClientC();
 
-if (isset($_POST["email"]) &&
-    isset($_POST["password"])) {  if (!empty($_POST["email"]) && !empty($_POST["password"]))
-    {   $message=$ClientC->connexionUser($_POST["email"],$_POST["password"]);
-      $hedha=$ClientC->idClientt($_POST["email"],$_POST["password"]);
+$id = $_GET['id'];
 
-        $_SESSION['e'] = $hedha['idClient'];
-      // on stocke dans le tableau une colonne ayant comme nom "e",
-        //  avec l'email à l'intérieur
+$pdo=config::getConnexion();
+$query= $pdo ->prepare("select * from avis where id_avis= '$id'");
 
-        if($message!='pseudo ou le mot de passe est incorrect') {
+$query->execute();
+ $result = $query->fetchAll();
 
-            $user = $Client1C->recupererrole($_POST['email']);
-            if ($user['role'] == 'client') {
-                header('Location:index.php'); //client
-            }else
-                { header('Location:../back/');} //admin
-        }
-        else{
-            $message='pseudo ou le mot de passe est incorrect';
-        }}
-    else
-        $message = "Missing information";}
+$avisC = new avisC();
+
+if (isset($_POST["description"])&& isset($_POST["note"])&& isset($_POST["type_avis"]))
+{
+
+  $avis = new Avis($_POST['description'],(int)$_POST['note'],(int)$_SESSION['e'],(string)$_POST["type_avis"]);
+
+
+    $avisC->updateavis($avis,$_GET['id']);
+    header("location:index.php");
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -68,40 +64,67 @@ if (isset($_POST["email"]) &&
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
 
+  <script>
+  function Verification() {
+    var mess = document.getElementById('description').value;
+    if(mess.length == 0){
+  alert('Vous devez ecrire un message !');
+  document.getElementById('description').style.backgroundColor="red";
+  document.getElementById('description').style.color="#FFF";
 
+  // Permet de bloquer l'envoi du formulaire
+  return false;
+  }
+  else{
+  document.getElementById('description').style.backgroundColor="#9C6";
+  }
+  }
+  </script>
   <div class="modal-content">
     <form action="" method="POST">
               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Signin</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Modifier avis</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">×</span>
                   </button>
+                  <?php foreach($result as $rows) {  ?>
               </div>
               <div class="modal-body">
-                  <form action="#" method="POST" class="p-sm-3">
+                  <form action="#" method="POST" class="p-sm-3" onSubmit="return Verification()">
+                    <div>
+                      <label for="exampleInputPassword1">Le type de votre avis:</label>
+
+                      <select class="form-control" name="type_avis" value="<?php echo $rows['type_avis'] ?>" required>
+                        <option value="un avis favorable">un avis favorable </option>
+                        <option value="un avis defavorable">un avis defavorable</option>
+                      </select>
+
+                    </div>
+
                       <div class="form-group">
-                          <label for="recipient-name" class="col-form-label">Username</label>
-                          <input type="text" class="form-control" placeholder="email" name="email" id="email" required="">
+                        <label for="exampleInputPassword1">La note </label>
+                        <select class="form-control"name="note" value="<?php echo $rows['note'] ?>" required>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
                       </div>
+
+
                       <div class="form-group">
-                          <label for="password" class="col-form-label">Password</label>
-                          <input type="password" class="form-control" placeholder="password" name="password" id="password" required="">
+                        <label  for="exampleInputPassword1">Votre avis:</label>
+                          <input class="form-control" type="text" name="description"  id="description" value="<?php echo $rows['description'] ?>" required>
                       </div>
                       <div class="right-w3l">
-                          <input class="btn btn-primary btn-lg btn-block" type="submit" name="submit" value="Se Connecter" onClick="validation()">
+                          <input class="btn btn-primary btn-lg btn-block" type="submit" name="submit" value="Submit" onClick="Verification()">
                       </div>
+                      <?php } ?>
                       <div class="row sub-w3l my-3">
-                          <div class="col-sm-6 sub-w3_pvt">
 
-                              <label for="brand1">
-                                Vous n'avez pas un compte ?
-                                <a href="inscreption.php">S'inscrire</a>
-
-                          </div>
-                          <div class="col-sm-6 forgot-w3l text-sm-right">
-                              <a href="#" class="text-secondary">Forgot Password?</a>
-                          </div>
                       </div>
+
 
                   </form>
               </div>
